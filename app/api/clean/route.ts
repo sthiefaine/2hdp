@@ -19,4 +19,10 @@ export const GET = async (request: NextRequest) => {
   await prisma.podcasts.deleteMany({
     where: { guid: { in: duplicateGuids } },
   });
+
+  const json = {
+    duplicateGuids,
+  };
+
+  return NextResponse.json(json);
 };

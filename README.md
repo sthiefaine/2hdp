@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Mon Projet
 
-## Getting Started
+Ce projet est une application web développée avec [Next.js](https://nextjs.org/), une bibliothèque React pour le rendu côté serveur (SSR) et le routage. L'application utilise également [Prisma](https://www.prisma.io/) pour la gestion de la base de données et [rss-parser](https://www.npmjs.com/package/rss-parser) pour l'analyse des flux RSS.
 
-First, run the development server:
+## Dépendances
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Dépendances de production
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **@prisma/client** (^5.9.1) : Prisma Client pour l'accès à la base de données.
+- **next** (14.1.0) : Next.js pour le rendu côté serveur et le routage.
+- **react** (^18) : Bibliothèque React pour la construction d'interfaces utilisateur.
+- **react-dom** (^18) : Rendu côté client de React pour les navigateurs web.
+- **rss-parser** (^3.13.0) : Parseur de flux RSS pour extraire des données à partir de flux RSS.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Dépendances de développement
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- **@types/node** (^20) : Types pour Node.js pour TypeScript.
+- **@types/react** (^18) : Types pour React pour TypeScript.
+- **@types/react-dom** (^18) : Types pour React DOM pour TypeScript.
+- **eslint** (^8) : Linter JavaScript.
+- **eslint-config-next** (14.1.0) : Configuration ESLint pour les projets Next.js.
+- **prisma** (^5.9.1) : Outil Prisma CLI pour gérer la base de données.
+- **typescript** (^5) : Langage de programmation TypeScript.
 
-## Learn More
+## Installation
 
-To learn more about Next.js, take a look at the following resources:
+1. Clonez ce dépôt.
+2. Exécutez `npm install` pour installer les dépendances.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Configuration
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Assurez-vous de configurer votre base de données avec Prisma en modifiant le fichier `schema.prisma` et en exécutant les migrations nécessaires.
 
-## Deploy on Vercel
+## Utilisation
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Démarrez l'application en exécutant `npm run dev`.
+- Consultez la documentation de chaque dépendance pour en savoir plus sur son utilisation spécifique.

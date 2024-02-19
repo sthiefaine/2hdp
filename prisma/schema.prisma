@@ -1,0 +1,26 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Podcasts {
+  id        Int      @id @default(autoincrement())
+  guid      String  @unique
+  movieId   String?
+  title     String
+  author    String
+  audio     String
+  duration  String
+  saison    String?
+  episode   String?
+  description String
+  createdAt DateTime
+  updatedAt DateTime @updatedAt
+}

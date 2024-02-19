@@ -1,0 +1,79 @@
+/* Ajoutez ces styles à votre fichier CSS existant */
+
+.section {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Nouveau style pour positionner la durée en bas à droite de l'image */
+.article {
+  flex: 1 0 20%;
+  max-width: 20%;
+  color: #333; /* Couleur du texte principal */
+  padding: 10px;
+  position: relative;
+  background-color: #fff; /* Couleur de fond de la carte */
+  border-radius: 8px; /* Coins arrondis */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Ombre légère */
+  transition: transform 0.3s ease-in-out; /* Transition d'effet au survol */
+  width: 100px; /* Largeur de la carte */
+  margin: 10px; /* Marge entre les cartes */
+}
+
+@media screen and (max-width: 600px) {
+  .article {
+    flex: 1 0 100%;
+    max-width: 100%;
+  }
+}
+
+.article:hover {
+  transform: scale(1.05); /* Effet de zoom au survol */
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  border-bottom: 1px solid #ddd; /* Ligne séparatrice sous l'image */
+}
+
+.duration {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: #333; /* Couleur de fond de la durée */
+  color: #fff; /* Couleur du texte de la durée */
+  padding: 8px; /* Ajoutez un peu d'espace intérieur */
+  font-size: 12px; /* Ajustez la taille de la police selon vos besoins */
+}
+
+/* Ajoutez ces styles pour améliorer la mise en page */
+.informations {
+  padding: 16px;
+}
+
+.title {
+  font-size: 18px;
+  margin-bottom: 8px;
+  color: #333; /* Couleur du texte du titre */
+}
+
+.options {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #555; /* Couleur du texte des options */
+}
+
+.date,
+.saison {
+  font-size: 14px;
+}
+
+.description {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #777; /* Couleur du texte de la description */
+}

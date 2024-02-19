@@ -1,0 +1,13 @@
+:root {
+  --font-family: "Arial", sans-serif;
+  --font-family-secondary: "Helvetica Neue", Arial, sans-serif;
+  --font-size: 16px;
+  --line-height: 1.5;
+
+  --logo-primary-color: #ffe12f;
+  --background-secondary-color: #2b2a28;
+  --background-primary-color: #000000;
+  --text-secondary-color: #fde046;
+  --text-primary-color: #ffffff;
+  --text-tertiary-color: #000000;
+}

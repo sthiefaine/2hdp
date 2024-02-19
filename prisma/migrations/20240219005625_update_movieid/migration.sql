@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Podcasts" ALTER COLUMN "movieId" DROP NOT NULL,
+ALTER COLUMN "movieId" SET DATA TYPE TEXT;

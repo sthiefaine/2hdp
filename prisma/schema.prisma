@@ -12,7 +12,7 @@ datasource db {
 
 model Podcasts {
   id        Int      @id @default(autoincrement())
-  guid      String  @unique
+  guid      String
   movieId   String?
   title     String
   author    String

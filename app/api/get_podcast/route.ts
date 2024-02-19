@@ -1,5 +1,4 @@
 "use server";
-import { Podcast } from "@/models/podcast.model";
 import { NextRequest, NextResponse } from "next/server";
 import Parser from "rss-parser";
 import { Prisma, PrismaClient } from "@prisma/client";

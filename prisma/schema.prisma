@@ -23,4 +23,6 @@ model Podcasts {
   description String
   createdAt DateTime
   updatedAt DateTime @updatedAt
+
+  @@unique([guid])
 }

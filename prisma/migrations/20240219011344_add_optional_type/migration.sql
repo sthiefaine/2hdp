@@ -1,3 +1,0 @@
--- AlterTable
-ALTER TABLE "Podcasts" ALTER COLUMN "saison" DROP NOT NULL,
-ALTER COLUMN "episode" DROP NOT NULL;

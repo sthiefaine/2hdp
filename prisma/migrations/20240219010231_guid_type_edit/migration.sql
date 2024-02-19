@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "Podcasts" ALTER COLUMN "guid" SET DATA TYPE TEXT;

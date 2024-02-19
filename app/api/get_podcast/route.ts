@@ -28,6 +28,7 @@ export const GET = async (request: NextRequest) => {
 
   await prisma.podcasts.createMany({
     data: podcastsList,
+    skipDuplicates: true,
   });
 
   return NextResponse.json(json);

@@ -1,5 +1,15 @@
 /** @type {import('next').NextConfig} */
+require("dotenv").config();
 const nextConfig = {
+  images: {
+    domains: [
+      "tmdb.org",
+      "image.tmdb.org",
+      "themoviedb.org",
+      "jjrruaoms5jmeqd5.public.blob.vercel-storage.com",
+      "public.blob.vercel-storage.com",
+    ],
+  },
   async rewrites() {
     return [
       {

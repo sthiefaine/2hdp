@@ -5,13 +5,15 @@ import Link from "next/link";
 export function Header() {
   return (
     <header className={styles.header}>
-      <Image
-        className={styles.header__logo}
-        src="/2hdp-logo.svg"
-        alt="2HDP+"
-        width={210}
-        height={56}
-      />
+      <Link href="/">
+        <Image
+          className={styles.header__logo}
+          src="/2hdp-logo.svg"
+          alt="2HDP+"
+          width={210}
+          height={56}
+        />
+      </Link>
       <div className={styles.header__social}>
         <Link href="/">Twitter</Link>
         <Link href="/">Facebook</Link>

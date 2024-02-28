@@ -31,8 +31,7 @@ export interface Podcast {
   duration: string;
   saison: string;
   episode: string;
-  isoDate?: string;
-  createdAt?: string;
+  createdAt: any;
   itunes?: Partial<ItunePodcast>;
 }
 
@@ -46,4 +45,14 @@ export interface PodcastLiteFormated {
   description: string;
   duration: string;
   saison: string;
+}
+
+export interface Movie {
+  idTmdb: number;
+  title: string;
+  originalTitle: string;
+  poster: string;
+  releaseDate: string;
+  sagaIdTmdb?: number;
+  directorsName: string[];
 }

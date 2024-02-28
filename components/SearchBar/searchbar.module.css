@@ -1,10 +1,7 @@
 .searchbar {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  background-color: var(--background-primary-color);
   border-radius: 5px;
+  padding: 20px;
+  display: inline;
 }
 
 .searchbar__label {
@@ -15,7 +12,7 @@
 }
 
 .searchbar__input {
-  width: 100%;
+  min-width: 300px;
   height: 100%;
   border: none;
   border-radius: 5px;

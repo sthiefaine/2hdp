@@ -4,26 +4,44 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev db prod": "dotenv -e .env.production.local -- next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prisma": "prisma",
-    "vercel-build": "prisma generate && prisma migrate deploy && next build"
+    "prisma-dev": "dotenv -e .env.development.local -- npx prisma generate",
+    "prisma-prod": "dotenv -e .env.production.local -- npx prisma generate",
+    "vercel-build": "dotenv -e .env.production.local -- npx prisma generate -- npx prisma migrate deploy -- next build"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.3.4",
     "@prisma/client": "^5.9.1",
+    "@radix-ui/react-label": "^2.0.2",
+    "@radix-ui/react-slot": "^1.0.2",
+    "@vercel/blob": "^0.22.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
+    "dotenv": "^16.4.5",
+    "framer-motion": "^11.0.6",
+    "lucide-react": "^0.335.0",
     "next": "14.1.0",
-    "react": "^18",
-    "react-dom": "^18",
-    "rss-parser": "^3.13.0"
+    "react": "^18.2",
+    "react-dom": "^18.2",
+    "react-hook-form": "^7.50.1",
+    "rss-parser": "^3.13.0",
+    "tailwind-merge": "^2.2.1",
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "autoprefixer": "^10.4.17",
     "eslint": "^8",
     "eslint-config-next": "14.1.0",
+    "postcss": "^8.4.35",
     "prisma": "^5.9.1",
+    "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }
 }

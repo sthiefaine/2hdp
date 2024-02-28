@@ -13,8 +13,9 @@ datasource db {
 model Podcasts {
   id        Int      @id @default(autoincrement())
   guid      String
-  movieId   String?
+  movieIdTmdb   Int?
   title     String
+  slug      String @default("")
   author    String
   audio     String
   duration  String
@@ -25,4 +26,41 @@ model Podcasts {
   updatedAt DateTime @updatedAt
 
   @@unique([guid])
+}
+
+model Directors {
+  id        Int      @id @default(autoincrement())
+  idTmdb    Int
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([idTmdb])
+}
+
+model Saga {
+  id        Int      @id @default(autoincrement())
+  idTmdb    Int
+  name      String
+  image     String
+  films     Int[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([idTmdb])
+}
+
+model Movies {
+  id        Int      @id @default(autoincrement())
+  idTmdb    Int
+  title     String
+  originalTitle String
+  poster    String
+  sagaIdTmdb    Int?
+  releaseDate DateTime
+  directorsName String[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([idTmdb])
 }

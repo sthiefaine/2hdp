@@ -1,4 +1,15 @@
 {
+  "workbench.iconTheme": "material-icon-theme",
+  "editor.tabSize": 2,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  "workbench.editor.limit.value": 6,
+  "workbench.editor.limit.enabled": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
   "workbench.colorCustomizations": {
     "activityBar.background": "#501C29",
     "titleBar.activeBackground": "#702739",

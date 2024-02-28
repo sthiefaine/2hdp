@@ -3,6 +3,10 @@ import { Prisma, PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import Parser from "rss-parser";
 
+export const config = {
+  runtime: "edge",
+};
+
 export default async function handler(req: NextRequest) {
   const cron = req.nextUrl.pathname.split("/")[3] as string;
   if (!cron) return new Response("No cron provided", { status: 400 });

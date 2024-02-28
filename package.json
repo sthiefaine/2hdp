@@ -10,7 +10,7 @@
     "lint": "next lint",
     "prisma-dev": "dotenv -e .env.development.local -- npx prisma generate",
     "prisma-prod": "dotenv -e .env.production.local -- npx prisma generate",
-    "vercel-build": "dotenv -e .env.production.local -- npx prisma generate -- npx prisma migrate deploy -- next build"
+    "vercel-build": "dotenv -e .env.production.local -- npx prisma generate -- npx prisma migrate deploy && next build"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",

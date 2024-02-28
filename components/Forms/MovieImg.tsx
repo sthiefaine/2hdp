@@ -1,8 +1,6 @@
 "use client";
-import { uploadFile } from "@/app/actions/upload.action";
-import { FormEventHandler, useState } from "react";
-
-import Image from "next/image";
+import { uploadPosterMovies } from "@/app/actions/upload.action";
+import { FormEventHandler } from "react";
 
 export default function MovieImg() {
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
@@ -10,7 +8,7 @@ export default function MovieImg() {
 
     const formData = new FormData(e.currentTarget);
 
-    const url = await uploadFile(formData);
+    const url = await uploadPosterMovies(formData);
 
     console.log("url", url);
   };

@@ -1,7 +1,8 @@
+import "dotenv/config";
 import type { Metadata } from "next";
-import "../styles/reset.css";
 import "../styles/globals.css";
 import "../styles/index.css";
+import "../styles/reset.css";
 
 export const metadata: Metadata = {
   title: "2HDP+",

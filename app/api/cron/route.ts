@@ -1,26 +1,7 @@
-"use server";
 import { Prisma, PrismaClient } from "@prisma/client";
-import { NextRequest, NextResponse } from "next/server";
 import Parser from "rss-parser";
 
-export const config = {
-  runtime: "edge",
-};
-
-export default async function handler(req: NextRequest) {
-  console.log("test", req.nextUrl.pathname);
-  const cron = req.nextUrl.pathname.split("/")[3] as string;
-  if (!cron) return new Response("No cron provided", { status: 400 });
-  const response = await get(cron);
-  return new NextResponse(JSON.stringify(response), {
-    status: 200,
-  });
-}
-
-async function get(cron: string) {
-  if (cron !== "get_podcasts") {
-    return new Response("Invalid cron", { status: 400 });
-  }
+export async function GET() {
   const prisma = new PrismaClient();
   const parser = new Parser();
   const feedData = await parser.parseURL("https://feed.ausha.co/Loa7srdWGm1b");
@@ -58,5 +39,5 @@ async function get(cron: string) {
     skipDuplicates: true,
   });
 
-  return NextResponse.json(json);
+  return Response.json(json);
 }

@@ -1,7 +1,7 @@
 {
   "crons": [
     {
-      "path": "/api/cron/get_podcasts/",
+      "path": "/api/cron/",
       "schedule": "11 11 * * 1-6"
     }
   ]

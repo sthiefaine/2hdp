@@ -8,6 +8,7 @@ export const config = {
 };
 
 export default async function handler(req: NextRequest) {
+  console.log("test", req.nextUrl.pathname);
   const cron = req.nextUrl.pathname.split("/")[3] as string;
   if (!cron) return new Response("No cron provided", { status: 400 });
   const response = await get(cron);
@@ -17,8 +18,9 @@ export default async function handler(req: NextRequest) {
 }
 
 async function get(cron: string) {
-  if (cron !== "get_podcasts")
+  if (cron !== "get_podcasts") {
     return new Response("Invalid cron", { status: 400 });
+  }
   const prisma = new PrismaClient();
   const parser = new Parser();
   const feedData = await parser.parseURL("https://feed.ausha.co/Loa7srdWGm1b");

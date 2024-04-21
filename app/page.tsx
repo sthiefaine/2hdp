@@ -6,12 +6,12 @@ import { Search } from "@/components/Search/Search";
 import { MainProvider } from "@/context";
 import styles from "./page.module.css";
 
-export const getData = async () => {
+const getData = async () => {
   const item = await fetchAllPodcastsListWithMovie();
   return item;
 };
 
-export default async function Home(props: any) {
+export default async function Home() {
   const podcastsList = await getData();
 
   return (

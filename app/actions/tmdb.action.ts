@@ -1,7 +1,5 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
-
 const options = {
   method: "GET",
   headers: {
@@ -13,8 +11,6 @@ const options = {
 export const handleValidateFilm = async (formData: any) => {
   const id = parseInt(formData.get("id") as string);
   const filmPoster = formData.get("filmPoster") as string;
-
-  console.log("handleValidateFilm ID", id);
   const movieDetails = await getMovieDetails(id, filmPoster);
 
   return movieDetails;
@@ -70,8 +66,6 @@ export const getMovieDetails = async (id: number, filmPoster: string) => {
       sagaIdTmdb: movieDetails.belongs_to_collection?.id,
       directorsName: directors,
     };
-
-    console.log("movie FETCHED", movie.idTmdb);
     return movie;
   } catch (error) {
     console.error(

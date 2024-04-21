@@ -1,28 +1,26 @@
-"use server";
-import { Filter } from "@/components/Filter/Filter";
-import { Footer } from "@/components/Footer/footer";
-import { Header } from "@/components/Header/header";
 import { Intro } from "@/components/Intro/Intro";
 import { List } from "@/components/Lists/List";
-import { SearchBar } from "@/components/SearchBar/searchbar";
-import { allPodcastsListWithMovie } from "./actions/podcast.action";
+import { fetchAllPodcastsListWithMovie } from "./actions/podcast.action";
+
+import { Search } from "@/components/Search/Search";
+import { MainProvider } from "@/context";
 import styles from "./page.module.css";
 
+export const getData = async () => {
+  const item = await fetchAllPodcastsListWithMovie();
+  return item;
+};
+
 export default async function Home(props: any) {
-  const podcastsList = await allPodcastsListWithMovie();
+  const podcastsList = await getData();
+
   return (
-    <>
-      <Header />
+    <MainProvider podcastList={podcastsList}>
       <main className={styles.main}>
         <Intro />
-        <div className={styles.container__search}>
-          <SearchBar />
-          <Filter podcastsList={podcastsList} />
-        </div>
-
-        <List podcastsList={podcastsList} searchParams={props.searchParams} />
+        <Search />
+        <List />
       </main>
-      <Footer />
-    </>
+    </MainProvider>
   );
 }

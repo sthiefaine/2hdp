@@ -1,5 +1,8 @@
+"use client";
 /* eslint-disable react/no-unescaped-entities */
 import styles from "./intro.module.css";
+
+import Image from "next/image";
 
 const typedMoviesData: Partial<RSS> = {};
 
@@ -68,19 +71,36 @@ export function Intro() {
   return (
     <section className={styles.main__section}>
       <article className={styles.main__article}>
-        <p className={styles.main__text}>
-          2 Heures de Perdues, c’est une bande de tocardos avec des micros qui
-          s'enfilent chaque semaine des films de l'enfer juste pour te faire
-          patienter dans les transports ou te faire marrer sur ton velo
-          elliptique que t'assumes pas. 2HDP, c'est aussi la culture de l'à peu
-          près et de l'information potentiellement fausse. Alors, fais nous
-          plaisir, monte pas dans les tours et écoute !
-        </p>
-        <p>
-          Un total de <strong>{getMoviesNumber()} films</strong> soit{" "}
-          <strong>{getTotalsMoviesDuration()} de Perdues</strong>
-        </p>
+        <Image src="/2hdp-hero-logo.svg" alt="2HDP+" width={210} height={56} />
+        <a
+          href="https://fr.wiktionary.org/wiki/su%C3%A9d%C3%A9"
+          about="définition de suédé"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <div className={styles.letters}>
+            {" "}
+            <span className={`${styles.letter} ${styles.letter_s}`}>S</span>
+            <span className={`${styles.letter} ${styles.letter_u}`}>U</span>
+            <span className={`${styles.letter} ${styles.letter_e}`}>É</span>
+            <span className={`${styles.letter} ${styles.letter_d}`}>D</span>
+            <span className={`${styles.letter} ${styles.letter_e2}`}>É</span>
+          </div>
+        </a>
       </article>
+      <div className={styles.text_container}>
+        <p className={styles.text}>
+          Le Site officiel c'est{" "}
+          <a
+            href="https://2hdp.fr"
+            about="lien vers le site officiel"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <strong className={styles.text_strong}> par ici !</strong>
+          </a>
+        </p>
+      </div>
     </section>
   );
 }

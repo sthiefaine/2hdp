@@ -1,0 +1,105 @@
+/* CSS pour styliser le formulaire dans Next.js */
+.section {
+  position: relative;
+  margin-bottom: 20px;
+  border: 2px solid #007bff;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  transition: box-shadow 0.3s ease;
+}
+
+.title {
+  font-size: 20px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+.subtitle {
+  position: absolute;
+  font-weight: bold;
+  top: -11px;
+  font-size: 16px;
+  margin-bottom: 15px;
+  z-index: 1;
+  padding: 0 5px;
+  background-color: var(--background-secondary-color);
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.label {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  transition: border-color 0.3s ease;
+}
+
+.input:focus {
+  border-color: #007bff;
+}
+
+.button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.buttonActive {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  background-color: green;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:focus {
+  outline: none;
+}
+
+.manualButton {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.manualButton:hover {
+  background-color: #0056b3;
+}
+
+.legendText {
+  font-size: 16px;
+  margin-left: 20px;
+}

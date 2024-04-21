@@ -1,110 +1,142 @@
 "use client";
 
-import { searchMatchingMoviesWithTitle } from "@/app/actions/tmdb.action";
-import Image from "next/image";
 import { useState } from "react";
-import { ValidateMovie } from "../Buttons/ValidateMovie";
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
+import Stepper from "../Stepper/stepper";
+import FilmInfo from "./FilmInfo";
+import FilmSearchTmdb from "./FilmSearchTmdb";
+import ImageInfo from "./ImageInfo";
+import PodcastInfo from "./PodcastInfo";
+
+import styles from "./searchMovie.module.css";
 
 export default function SearchMovie({
+  result,
   title,
   guid,
+  slug,
 }: {
+  result: Array<any>;
   guid: string;
   title: string;
+  slug: string;
 }) {
-  const [filmsWithMatching, setFilmsWithMatching] = useState([]);
-  const [filmDetails, setFilmDetails] = useState<any>();
-  const [error, setError] = useState<boolean>(false);
-  const [filmSelected, setFilmSelected] = useState<any>();
+  const [filmSelectedDetails, setFilmSelectedDetails] = useState<any>({});
+  const [idTmdb, setIdTmdb] = useState<number>();
+  const [step, setStep] = useState(1);
+  const [podcastIsLinkedToMovie, setPodcastIsLinkedToMovie] = useState(false);
 
-  const handleSearchMovieFromTitle = async (formData: FormData) => {
-    console.log("searching movie from title");
-    const title = formData.get("title") as string;
-
-    const test = await searchMatchingMoviesWithTitle(title);
-
-    if (test.results === 0) {
-      setError(true);
-    } else {
-      setFilmsWithMatching(test.results.slice(0, 3));
+  const handleManualStep = () => {
+    if (Object.entries(result).length !== 0) {
+      setFilmSelectedDetails(result[0]);
     }
+    setStep(2);
   };
 
-  const FilmMatchingList = () => {
-    return filmsWithMatching.map((film: any) => {
-      return (
-        <div key={film.id}>
-          <h2>{film.title}</h2>
-          <h3>{film.release_date}</h3>
-
-          <Image
-            unoptimized
-            src={`https://image.tmdb.org/t/p/w500/${film.backdrop_path}`}
-            width={280}
-            height={160}
-            alt={film.title}
-          />
-          <br />
-          <ValidateMovie
-            film={film}
-            guid={guid}
-            setFilmsWithMatching={setFilmsWithMatching}
-          />
-        </div>
-      );
-    });
+  const handlePodcastIsLinkedToMovie = () => {
+    setPodcastIsLinkedToMovie(true);
   };
 
-  if (!error && filmsWithMatching?.length > 0) {
-    return (
-      <>
-        <button onClick={() => setFilmsWithMatching([])}>CLEAN SEARCH</button>
-        <FilmMatchingList />
-      </>
-    );
-  }
+  const handlePodcastIsNotLinkedToMovie = () => {
+    setPodcastIsLinkedToMovie(false);
+    setStep(2);
+  };
 
   return (
     <>
-      <span>Recherche automatique</span>
-      <form action={handleSearchMovieFromTitle}>
-        <label htmlFor="title">Titre du film</label>
-        <Input
-          type="text"
-          name="title"
-          required
-          defaultValue={title}
-          placeholder="retour vers le futur"
-        />
-        <Button type="submit">Rechercher</Button>
-      </form>
+      <Stepper
+        step={step}
+        setStep={setStep}
+        setFilmSelectedDetails={setFilmSelectedDetails}
+        stepsNames={["Selection", "Contenu", "Podcast", "Image"]}
+        steps={[1, 2, 3, 4]}
+      />
 
-      <span>MANUEL</span>
-      <form action={() => console.log("AAAAAAAAAAAA")}>
-        <label htmlFor="title">Titre du film</label>
-        <Input
-          type="text"
-          name="title"
-          required
-          defaultValue={title}
-          placeholder="retour vers le futur"
-        />
-        <label htmlFor="year">Année du film</label>
-        <Input type="number" name="year" placeholder="1985" />
-        <label htmlFor="directeur">Directeurs</label>
-        <Input
-          type="text"
-          name="directeur"
-          placeholder="John Doe, John Smith"
-        />
-        <label htmlFor="IdImbd">ID IMBD</label>
-        <Input type="number" name="IdImbd" required placeholder="00000" />
-        <label htmlFor="IdImbd">ID IMBD Collection</label>
-        <Input type="number" name="IdImbd" placeholder="0000111" />
-        <Button type="submit">Ajouter</Button>
-      </form>
+      <div className={styles.container}>
+        {step === 1 && (
+          <>
+            <div>
+              <section className={styles.section}>
+                <h3 className={styles.title}>
+                  Ce podcast est-il lié à un film ?
+                </h3>
+                <div className={styles.buttonContainer}>
+                  <button
+                    onClick={() => handlePodcastIsLinkedToMovie()}
+                    className={`${styles.button} ${
+                      podcastIsLinkedToMovie ? styles.buttonActive : ""
+                    }`}
+                  >
+                    Oui
+                  </button>
+                  <button
+                    onClick={() => handlePodcastIsNotLinkedToMovie()}
+                    className={styles.button}
+                  >
+                    Non
+                  </button>
+                </div>
+              </section>
+            </div>
+
+            {podcastIsLinkedToMovie && (
+              <>
+                <FilmSearchTmdb
+                  slug={slug}
+                  idTmdb={idTmdb}
+                  setIdTmdb={setIdTmdb}
+                  setFilmSelectedDetails={setFilmSelectedDetails}
+                  guid={guid}
+                  title={title}
+                  filmSelectedDetails={filmSelectedDetails}
+                  setStep={setStep}
+                />
+                <div className={styles.section}>
+                  <button
+                    className={styles.manualButton}
+                    onClick={() => handleManualStep()}
+                  >
+                    Remplissage manuel
+                  </button>
+                  <span className={styles.legendText}>
+                    Vous allez completer directement les informations relatives
+                    au film
+                  </span>
+                </div>
+              </>
+            )}
+          </>
+        )}
+        {step === 2 && (
+          <>
+            <FilmInfo
+              idTmdb={idTmdb}
+              setIdTmdb={setIdTmdb}
+              slug={slug}
+              guid={guid}
+              title={result[0]?.movieTitle ?? title}
+              filmSelectedDetails={filmSelectedDetails}
+              setFilmSelectedDetails={setFilmSelectedDetails}
+              isMovie={podcastIsLinkedToMovie}
+              setStep={setStep}
+            />
+          </>
+        )}
+        {step === 3 && (
+          <PodcastInfo
+            idTmdb={filmSelectedDetails.idTmdb}
+            slug={slug}
+            guid={guid}
+            setStep={setStep}
+          />
+        )}
+        {step === 4 && (
+          <ImageInfo
+            specialSlug={result[0]?.specialSlug}
+            idTmdb={filmSelectedDetails.idTmdb}
+            slug={slug}
+          />
+        )}
+      </div>
     </>
   );
 }

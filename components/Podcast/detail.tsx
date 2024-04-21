@@ -1,59 +1,207 @@
 "use client";
+import { usePlayer } from "@/context/player.context";
 import Image from "next/image";
-import { useState } from "react";
-import styles from "../../app/details/[slug]/page.module.css";
+import { useEffect, useRef, useState } from "react";
+import Card from "../Card/Card";
 import SearchMovie from "../Forms/SearchMovie";
-import PodcastPlayer from "./player";
+import styles from "./detail.module.css";
+import { ModalReview } from "./modalReview";
+
+import { Download, MessageCircleHeart, Pause, Play } from "lucide-react";
+import { LoginButton, LogoutButton } from "../Buttons/AuthButton";
 
 export type PodcastPlayerProps = {
   result: Array<any>;
+  reviewInfo: Array<any>;
+  previousAndNext: { previousPodcast: any; nextPodcast: any };
+  session: any;
 };
 
-export const PodcastDetail = ({ result }: PodcastPlayerProps) => {
-  const [displayAdmin, setDisplayAdmin] = useState(false);
+export const PodcastDetail = ({
+  result,
+  reviewInfo,
+  previousAndNext,
+  session,
+}: PodcastPlayerProps) => {
+  const { podcast, setPodcast, isPlaying, setIsPlaying } = usePlayer();
+  const [displayOpenEditMovie, setDisplayOpenEditMovie] = useState(false);
+  const [displayReview, setDisplayReview] = useState(false);
+  const modalRef = useRef<HTMLDivElement>(null);
 
-  const handleDisplayAdmin = () => {
-    setDisplayAdmin(!displayAdmin);
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
+        setDisplayReview(false);
+        setDisplayOpenEditMovie(false);
+      }
+    };
+
+    // Ajoutez l'écouteur d'événement au chargement du composant
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Retirez l'écouteur d'événement lorsque le composant est démonté
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const openEditMovie = () => {
+    setDisplayOpenEditMovie(!displayOpenEditMovie);
   };
+
+  const previousPodcast = previousAndNext.previousPodcast[0];
+  const nextPodcast = previousAndNext.nextPodcast[0];
+
+  const handleListen = () => {
+    setIsPlaying(true);
+
+    if (podcast.url !== result[0].audio) {
+      setPodcast({
+        title: result[0].title ?? result[0].movieTitle,
+        url: result[0].audio,
+      });
+    }
+  };
+
+  const handlePause = () => {
+    setIsPlaying(false);
+  };
+
+  console.log(session);
+
   return (
     <>
       <div className={styles.container}>
-        <button className={styles.adminButton} onClick={handleDisplayAdmin}>
-          ADMIN
-        </button>
         <Image
           className={styles.landingImage}
-          src={result[0].poster || "/cover.jpg"}
+          src={
+            result[0]?.poster && result[0]?.poster !== "null"
+              ? result[0]?.poster
+              : "/cover.jpg"
+          }
           alt="Poster of the movie"
           style={{ objectFit: "cover" }}
           fill={true}
         />{" "}
         <div className={styles.child}>
           <div className={styles.informations}>
-            <h1 className={styles.title}>{result[0].movieTitle}</h1>
-            <span className={styles.releaseDate}>
-              {"(" + new Date(result[0].releaseDate).getFullYear() + ")"}{" "}
-            </span>
-            <div className={styles.subtitle}>
-              <span className={styles.directors}>
-                de {result[0].directorsName?.join(", ")}
+            <h1 className={styles.title}>
+              {result[0].title ?? result[0].movieTitle}
+            </h1>
+            {result[0].releaseDate && (
+              <span className={styles.releaseDate}>
+                {"(" + new Date(result[0].releaseDate).getFullYear() + ")"}
               </span>
+            )}
+
+            {!session && <LoginButton />}
+
+            {session?.user && (
+              <>
+                <span>
+                  <LogoutButton />
+                </span>
+                <button className={styles.button} onClick={openEditMovie}>
+                  EDITER
+                </button>
+              </>
+            )}
+            <div className={styles.subtitle}>
+              {result[0].directorsName && (
+                <span className={styles.directors}>
+                  de {result[0].directorsName?.join(", ")}
+                </span>
+              )}
             </div>
             <div className={styles.text}>
               <span className={styles.saison}>S{result[0].saison}</span>
               <span className={styles.episode}>E{result[0].episode}</span>
               <span className={styles.description}>
-                {result[0].description}
+                {result[0].descriptionHtml ?? result[0].description}
               </span>
             </div>
 
-            <div className={styles.podcastPlayer}>
-              <PodcastPlayer src={result[0].audio} />
+            <div className={styles.actionBar}>
+              {(!isPlaying || result[0].audio !== podcast?.url) && (
+                <button
+                  className={styles.buttonAction}
+                  onClick={() => handleListen()}
+                >
+                  <Play /> Écouter
+                </button>
+              )}
+              {isPlaying && result[0].audio === podcast.url && (
+                <button
+                  className={styles.buttonAction}
+                  onClick={() => handlePause()}
+                >
+                  <Pause /> Pause
+                </button>
+              )}
+
+              <button className={styles.buttonAction}>
+                <a
+                  href={result[0].audio}
+                  download
+                  about="Télécharger le podcast"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Download /> Télécharger
+                </a>
+              </button>
+
+              {reviewInfo[0]?.review && (
+                <button
+                  className={styles.buttonAction}
+                  onClick={() => setDisplayReview(true)}
+                >
+                  <MessageCircleHeart /> Fandecoatch
+                </button>
+              )}
+
+              {result[0].idTmdb && result[0].isMovie && (
+                <button className={styles.buttonAction}>
+                  <a
+                    href={`https://www.themoviedb.org/movie/${result[0].idTmdb}`}
+                    about="ouvrir le lien Tmdb"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Image
+                      src="/tmdb_icon.svg"
+                      alt="tmdb"
+                      width={100}
+                      height={30}
+                    />{" "}
+                  </a>
+                </button>
+              )}
+
+              {reviewInfo[0]?.idAlloCine && (
+                <button className={styles.buttonAction}>
+                  <a
+                    href={`https://www.allocine.fr/film/fichefilm_gen_cfilm=${reviewInfo[0]?.idAlloCine}.html`}
+                    about="ouvrir le lien Allociné"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Image
+                      src="/allocine_icon.svg"
+                      alt="tmdb"
+                      width={100}
+                      height={30}
+                    />
+                  </a>
+                </button>
+              )}
             </div>
 
             <div>
               <span className={styles.publishDate}>
-                {" "}
                 Publié le{" "}
                 {result[0].createdAt.toLocaleDateString("fr-FR", {
                   year: "numeric",
@@ -61,16 +209,62 @@ export const PodcastDetail = ({ result }: PodcastPlayerProps) => {
                   day: "numeric",
                 })}
               </span>
+              {result[0]?.speakers && (
+                <span className={styles.speakers}>
+                  Avec {result[0]?.speakers?.join(", ")}
+                </span>
+              )}
+            </div>
+          </div>
+
+          <div className={styles.card__bottom__container}>
+            <div className={styles.card__navigation}>
+              {nextPodcast && (
+                <div className={styles.card__navigation__container}>
+                  <span className={styles.card__navigation__title}>
+                    Suivant
+                  </span>
+                  <Card item={nextPodcast} />
+                </div>
+              )}
+              {previousPodcast && (
+                <div className={styles.card__navigation__container}>
+                  <span className={styles.card__navigation__title}>
+                    Précédent
+                  </span>
+                  <Card item={previousPodcast} />
+                </div>
+              )}
             </div>
           </div>
         </div>
       </div>
-      {displayAdmin && (
-        <div className={styles.rightPanel}>
-          <SearchMovie
-            guid={result[0].guid || ""}
-            title={result[0].title || ""}
-          />
+      {displayReview && (
+        <div className={styles.popup} ref={modalRef}>
+          <div className={styles.popupContent}>
+            <button
+              className={styles.closeButton}
+              onClick={() => setDisplayReview(false)}
+            >
+              X
+            </button>
+            <ModalReview reviewInfo={reviewInfo[0].review} />
+          </div>
+        </div>
+      )}
+      {displayOpenEditMovie && (
+        <div className={styles.popup} ref={modalRef}>
+          <div className={styles.popupContent}>
+            <button className={styles.closeButton} onClick={openEditMovie}>
+              X
+            </button>
+            <SearchMovie
+              result={result}
+              guid={result[0].guid || ""}
+              title={result[0].title || ""}
+              slug={result[0].slug || ""}
+            />
+          </div>
         </div>
       )}
     </>

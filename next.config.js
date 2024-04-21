@@ -7,6 +7,8 @@ const nextConfig = {
       "themoviedb.org",
       "jjrruaoms5jmeqd5.public.blob.vercel-storage.com",
       "public.blob.vercel-storage.com",
+      "2hdp.fr",
+      "www.2hdp.fr",
     ],
   },
   async rewrites() {

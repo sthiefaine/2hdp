@@ -25,6 +25,7 @@ interface ItunePodcast {
 
 export interface Podcast {
   title: string;
+  slug: string;
   guid: string;
   author: string;
   description: string;

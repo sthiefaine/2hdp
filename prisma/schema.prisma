@@ -10,18 +10,73 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+ 
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?  @db.Text
+  access_token       String?  @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?  @db.Text
+  session_state      String?
+ 
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  @@unique([provider, providerAccountId])
+}
+ 
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+ 
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+}
+ 
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+ 
+  @@unique([identifier, token])
+}
+
+
+
+
+
 model Podcasts {
   id        Int      @id @default(autoincrement())
   guid      String
   movieIdTmdb   Int?
+  movieIdAlloCine   Int?
   title     String
   slug      String @default("")
+  specialSlug String?
   author    String
   audio     String
   duration  String
   saison    String?
   episode   String?
   description String
+  descriptionHtml String?
+  speakers  String[]
+  isEdited  Boolean @default(false)
   createdAt DateTime
   updatedAt DateTime @updatedAt
 
@@ -54,13 +109,32 @@ model Movies {
   id        Int      @id @default(autoincrement())
   idTmdb    Int
   title     String
-  originalTitle String
-  poster    String
+  originalTitle String?
+  slug      String?
+  poster    String?
   sagaIdTmdb    Int?
   releaseDate DateTime
   directorsName String[]
+  isMovie   Boolean @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@unique([idTmdb])
+}
+
+model Reviews {
+  id        Int      @id @default(autoincrement())
+  idTmdb    Int?
+  idAlloCine     Int
+  userIdAlloCine String
+  originalTitle String
+  slug    String
+  userName String
+  review String
+  rating    Float
+  releaseDate DateTime
+  completed Boolean
+  display Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

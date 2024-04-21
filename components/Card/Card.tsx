@@ -1,10 +1,10 @@
-import { Movie, Podcast } from "@/models/podcast.model";
-import styles from "./card.module.css";
-import Image from "next/image";
-import Link from "next/link";
 import { slugify } from "@/helpers";
 import { shortDate } from "@/helpers/dates";
 import { formatDuration } from "@/helpers/times";
+import { Movie, Podcast } from "@/models/podcast.model";
+import Image from "next/image";
+import Link from "next/link";
+import styles from "./card.module.css";
 
 const Card = ({
   item,
@@ -15,27 +15,25 @@ const Card = ({
     <>
       <article className={styles.article}>
         <Link
+          className={styles.link}
           href={{
             pathname: `/details/${slugify(item.title)}`,
           }}
         >
           <span className={styles.imageContainer}>
-            {item.poster &&
-              item.poster.includes(slugify(item.movieTitle ?? item.title)) && (
-                <Image
-                  src={item.poster}
-                  alt="Picture of the author"
-                  width={200}
-                  height={100}
-                  className={styles.image}
-                />
-              )}
-            {(!item.poster ||
-              item.poster.includes(slugify(item.movieTitle ?? item.title)) ===
-                false) && (
+            {item.poster && (
+              <Image
+                src={item.poster}
+                alt="Picture of the author"
+                width={750}
+                height={400}
+                className={styles.image}
+              />
+            )}
+            {!item.poster && (
               <Image
                 src="/cover.jpg"
-                alt="Picture of the author"
+                alt="Picture of default cover"
                 width={200}
                 height={100}
                 className={styles.image}

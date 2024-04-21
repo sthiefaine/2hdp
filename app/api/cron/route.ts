@@ -39,5 +39,5 @@ export async function GET() {
     skipDuplicates: true,
   });
 
-  return Response.json(json);
+  return Response.json(await json);
 }

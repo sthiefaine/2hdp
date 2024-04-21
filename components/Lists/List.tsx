@@ -1,32 +1,51 @@
 "use client";
 import { PodcastsAndMovieData } from "@/app/actions/podcast.action";
+import { usePodcastList } from "@/context/podcastList.context";
+import { useSearch } from "@/context/search.context";
 import Card from "../Card/Card";
 import styles from "./list.module.css";
 
-export function List({
-  podcastsList,
-  searchParams,
-}: {
-  searchParams: { q: string; season: string };
-  podcastsList: any;
-}) {
-  const podcastSearch = searchParams?.q?.trim() ?? "";
-  const seasonSearch = searchParams?.season?.trim() ?? "";
+type ListProps = {
+  data?: PodcastsAndMovieData[];
+};
 
-  console.log("saison search", seasonSearch);
+export function List({ data }: ListProps) {
+  const { search } = useSearch();
+  const { podcasts } = usePodcastList();
+
+  const podcastsList = data ?? podcasts ?? [];
+  const podcastSearchKeyWord =
+    search?.title?.trim().toLowerCase().split(" ") ?? [];
+  const seasonSearch = search?.season?.trim() ?? "";
+
   const filteredPodcasts: PodcastsAndMovieData[] = podcastsList?.filter(
     (podcast: any) => {
-      if (seasonSearch) {
+      if (seasonSearch && search?.fandecoatch) {
         const filteredPodcasts =
           podcast.saison === seasonSearch &&
           podcast.saison !== null &&
-          podcast.title.toLowerCase().includes(podcastSearch.toLowerCase());
+          podcast.review !== null;
 
-        console.log("filteredPodcasts", filteredPodcasts);
         return filteredPodcasts ?? [];
       }
+      if (seasonSearch && !search?.fandecoatch) {
+        const filteredPodcasts =
+          podcast.saison === seasonSearch &&
+          podcast.saison !== null &&
+          podcastSearchKeyWord.every((word: string) =>
+            podcast.title.toLowerCase().includes(word)
+          );
+
+        return filteredPodcasts ?? [];
+      }
+
+      if (search?.fandecoatch) {
+        return podcast.review && podcast.review !== null;
+      }
       return (
-        podcast.title.toLowerCase().includes(podcastSearch.toLowerCase()) ?? []
+        podcastSearchKeyWord.every((word: string) =>
+          podcast.title.toLowerCase().includes(word)
+        ) ?? []
       );
     }
   );

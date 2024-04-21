@@ -1,80 +1,50 @@
 "use client";
-import { PodcastsAndMovieData } from "@/app/actions/podcast.action";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { usePodcastList } from "@/context/podcastList.context";
+import { useSearch } from "@/context/search.context";
 import styles from "./filter.module.css";
 
-type FilterProps = {
-  podcastsList: PodcastsAndMovieData[];
-};
+type FilterProps = {};
 
 export const Filter = (props: FilterProps) => {
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const { replace } = useRouter();
-  const [searchedSeason, setSearchedSeason] = useState<string>("");
+  const { search, setSearch } = useSearch();
+  const { podcasts } = usePodcastList();
 
   const seasonsList = Array.from(
     new Set(
-      props.podcastsList
+      podcasts
         .filter((podcast) => podcast.saison !== null)
         .map((podcast) => podcast.saison)
     )
   ).sort((a, b) => Number(a) - Number(b));
 
-  const handleSelectSeason = (term: string) => {
-    const params = new URLSearchParams(searchParams);
-    if (term) {
-      params.set("season", term);
-    } else {
-      params.delete("season");
-    }
-
-    replace(`${pathname}?${params.toString()}`);
+  const handleTest = (term: string) => {
+    setSearch({ ...search, season: term });
   };
-
-  const handleResetSearch = () => {
-    const params = new URLSearchParams(searchParams);
-    params.delete("season");
-    params.delete("q");
-    replace(`${pathname}?${params.toString()}`);
-  };
-
-  useEffect(() => {
-    const searchedSeason = searchParams.get("season");
-    if (!searchedSeason) {
-      setSearchedSeason(searchParams.get("season") || "");
-    } else {
-      setSearchedSeason("");
-    }
-  }, [searchParams]);
 
   return (
-    <span className={styles.containers}>
-      <label htmlFor="saison-select">TEST</label>
-
-      <select
-        name="saison"
-        id="saison-select"
-        onChange={(e) => handleSelectSeason(e.target.value)}
-        defaultValue={searchParams.get("season") || ""}
+    <span className={styles.container}>
+      <span className={styles.label}>Saisons</span>
+      <button
+        className={`${styles.button__all} ${
+          search.season ? "" : styles.button__active
+        }`}
+        onClick={() => handleTest("")}
       >
-        <option value="">Saison</option>
-        <option value="">Toutes</option>
-        {seasonsList.map((season, index) => (
-          <option
-            key={index}
-            value={season}
-            selected={(searchParams.get("season") ?? searchedSeason) === season}
-          >
-            {season}
-          </option>
-        ))}
-      </select>
-
-      <button className={styles.reset} onClick={handleResetSearch}>
-        RESET
+        Toutes
       </button>
+      {seasonsList.map((season, index) => (
+        <button
+          className={`${styles.button} ${
+            search.season === season || search.season === ""
+              ? styles.button__active
+              : ""
+          }`}
+          key={index}
+          onClick={() => handleTest(season)}
+        >
+          {season}
+        </button>
+      ))}
     </span>
   );
 };

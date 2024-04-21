@@ -1,0 +1,70 @@
+.stepper {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+}
+
+.stepWrapper {
+  position: relative;
+}
+
+.step {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #555;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.name {
+  position: absolute;
+  text-align: center;
+  padding: 0 3px;
+  top: 1px;
+  transform: translate(20%, -50%);
+  background-color: var(--background-secondary-color);
+}
+
+@media screen and (max-width: 768px) {
+  .name {
+    display: none;
+  }
+}
+
+.line {
+  position: relative;
+  flex: 1;
+  height: 4px;
+  background-color: #ddd;
+}
+
+.step.active {
+  background-color: var(--logo-primary-color);
+  color: black;
+}
+
+.step.active + .line {
+  background-color: var(--logo-primary-color);
+}
+
+.step:hover {
+  background-color: #ddd;
+}
+
+.step:hover + .line {
+  background-color: #ddd;
+}
+
+.step.active:hover {
+  background-color: #007bff;
+}
+
+.step.active:hover + .line {
+  background-color: #007bff;
+}

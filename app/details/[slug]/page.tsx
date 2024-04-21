@@ -1,9 +1,14 @@
 "use server";
-import styles from "./page.module.css";
-import { Header } from "@/components/Header/header";
-import { Footer } from "@/components/Footer/footer";
-import { getPodcastAndMovieInfo } from "@/app/actions/general.action";
+
+import {
+  getPodcastAndMovieInfo,
+  getPodcastReview,
+} from "@/app/actions/general.action";
 import { PodcastDetail } from "@/components/Podcast/detail";
+
+import { getPreviousAndNextPodcast } from "@/app/actions/podcast.action";
+import { auth } from "@/lib/auth";
+import styles from "./page.module.css";
 
 interface DetailProps {
   params: { slug: string };
@@ -11,20 +16,20 @@ interface DetailProps {
 
 export default async function Detail({ params: { slug } }: DetailProps) {
   const result: any = await getPodcastAndMovieInfo(slug);
-
-  if (!slug) {
-    return <>ERROR</>;
-  }
+  const reviewInfo: any = await getPodcastReview(slug);
+  const previousAndNext = await getPreviousAndNextPodcast(slug);
+  const session = await auth();
 
   return (
     <>
-      <Header />
-      <>
-        <main className={styles.main}>
-          <PodcastDetail result={result} />
-        </main>
-      </>
-      <Footer />
+      <main className={styles.main}>
+        <PodcastDetail
+          session={session}
+          result={result}
+          reviewInfo={reviewInfo}
+          previousAndNext={previousAndNext}
+        />
+      </main>
     </>
   );
 }

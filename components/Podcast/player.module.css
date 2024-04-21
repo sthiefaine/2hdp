@@ -23,6 +23,7 @@
   justify-content: center;
   align-items: center;
   margin-right: 20px;
+  cursor: pointer;
 }
 
 /* Pseudo-élément pour l'effet de lueur */
@@ -35,7 +36,7 @@
   bottom: 0px;
   border-radius: 40px; /* Un peu plus grand que le bouton */
   box-shadow: 0 0 2px 2px rgba(253, 224, 71, 1); /* Effet de lueur */
-  filter: blur(2px); /* Flou pour l'effet de lueur */
+  filter: blur(1.2px); /* Flou pour l'effet de lueur */
   z-index: -1; /* Placer derrière le bouton */
   animation: pulse-border 2s infinite; /* Animation de la bordure pulsante */
 }

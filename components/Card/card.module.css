@@ -1,18 +1,30 @@
-/* Nouveau style pour positionner la durée en bas à droite de l'image */
+.link {
+  color: unset;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: none;
+}
+
+.link:visited {
+  text-decoration: none;
+}
+
 .article {
   flex: 1 0 20%;
   max-width: 20%;
   min-width: 140px;
-  color: white; /* Couleur du texte principal */
-  border-radius: 12px; /* Coins arrondis */
-  width: 140px; /* Largeur de la carte */
-  margin: 10px; /* Marge entre les cartes */
+  color: white;
+  border-radius: 12px;
+  width: 140px;
+  margin: 10px;
 }
 
 @media screen and (max-width: 600px) {
   .article {
-    flex: 1 0 100%;
-    max-width: 100%;
+    flex: 1 0 90%;
+    max-width: 90%;
   }
 }
 
@@ -40,48 +52,36 @@
 .duration {
   transition: transform 0.4s ease-in-out;
   position: absolute;
-  bottom: 0;
+  bottom: 3px;
   right: 0;
-  background-color: rgba(0, 0, 0, 0.7); /* Couleur de fond de la durée */
-  border-radius: 12px 0 12px 0; /* Coins arrondis */
-  color: #fff; /* Couleur du texte de la durée */
-  padding: 2px; /* Ajoutez un peu d'espace intérieur */
-  font-size: 12px; /* Ajustez la taille de la police selon vos besoins */
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 12px 0 12px 0;
+  color: #fff;
+  padding: 5px;
+  font-size: 13px;
 }
 
-/* Ajoutez ces styles pour améliorer la mise en page */
 .informations {
   padding: 1px;
   margin-left: 10px;
 }
+
 .top {
   overflow: hidden;
 }
+
 .title {
   font-weight: 400;
   font-size: 15px;
   margin-bottom: 2px;
-  color: white; /* Couleur du texte par défaut */ /* Dégradé de gauche à droite */
+  margin-top: 2px;
+  color: white;
   display: block;
-  /*
-  white-space: nowrap;
-  width: auto;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  transform: translateX(0%)
-  transition: transform 4s ease-in;
-  */
-}
-.article:hover .title {
-  color: #ffe12f; /* Changement de couleur du texte au survol */
 }
 
-/*
 .article:hover .title {
-  transform: translateX(-100%);
-  overflow: initial;
+  color: #ffe12f;
 }
-*/
 
 .options {
   display: flex;

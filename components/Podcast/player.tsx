@@ -22,7 +22,6 @@ const PodcastPlayer = ({ src }: PodcastPlayerProps) => {
   useEffect(() => {
     const audioElement = audioRef.current;
     if (!audioElement) return;
-
     const setAudioData = () => {
       setDurationTotal(audioElement.duration);
       if (isPlaying) {
@@ -38,15 +37,19 @@ const PodcastPlayer = ({ src }: PodcastPlayerProps) => {
       setProgress(progressPercentage);
     };
 
-    console.log("isPlaying", isPlaying);
-    audioElement.addEventListener("loadedmetadata", setAudioData);
+    if (audioElement.readyState >= 2) {
+      setAudioData();
+    } else {
+      audioElement.addEventListener("loadedmetadata", setAudioData);
+    }
+
     audioElement.addEventListener("timeupdate", updateProgress);
 
     return () => {
-      audioElement.removeEventListener("loadedmetadata", setAudioData);
       audioElement.removeEventListener("timeupdate", updateProgress);
     };
-  }, [isPlaying]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const hours = Math.floor(durationTotal / 3600);
@@ -99,7 +102,7 @@ const PodcastPlayer = ({ src }: PodcastPlayerProps) => {
 
   return (
     <div className={styles.container}>
-      <audio ref={audioRef} src={src} preload="metadata" />
+      <audio ref={audioRef} src={src} preload="metadata" id="audio" />
       <button className={styles.player_button} onClick={togglePlay}>
         {isPlaying ? "Pause" : "Play"}
       </button>

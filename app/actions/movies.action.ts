@@ -1,11 +1,7 @@
 "use server";
-import { slugify } from "@/helpers";
-import { uploadPosterMovies } from "./upload.action";
 import prisma from "@/helpers/prisma";
 
 export const createMovie = async (movie: any) => {
-  console.log("createMovie", movie.title);
-
   /*   const imageUrl = await fetch(
     `https://image.tmdb.org/t/p/w1280${movie.poster}`,
     {
@@ -22,8 +18,8 @@ export const createMovie = async (movie: any) => {
   console.log("blob", blob);
   const url = await uploadPosterMovies(formData);
  */
-  const url = "";
-  const movieWithNewImage = { ...movie, poster: url ?? "" };
+
+  const movieWithNewImage = { ...movie };
 
   const result = await prisma.movies.upsert({
     where: { idTmdb: movieWithNewImage.idTmdb },
@@ -32,4 +28,21 @@ export const createMovie = async (movie: any) => {
   });
 
   return result;
+};
+
+export const fetchBlob = async (url: string) => {
+  const response = await fetch(url);
+  const blob = await response.blob();
+  console.log("blob", blob);
+  const base64String = await convertBlobToBase64(blob);
+  return base64String as string;
+};
+
+const convertBlobToBase64 = (blob: Blob) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });
 };

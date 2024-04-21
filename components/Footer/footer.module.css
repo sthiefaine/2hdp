@@ -1,3 +1,9 @@
 .footer {
-  background-color: red;
+  height: 40px;
+  color: var(--text-primary-color);
+  background-color: var(--background-primary-color);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
 }

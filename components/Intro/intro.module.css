@@ -1,19 +1,13 @@
 .main__section {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
   padding: 1rem;
 }
 
 .main__article {
-  background-color: var(--background-primary-color);
-  border-radius: 6px;
-  color: var(--text-primary-color);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  position: relative;
   margin: 1rem;
   padding: 1rem;
 }
@@ -28,4 +22,130 @@
   color: var(--text-primary-color);
   font-size: 1rem;
   margin: 1rem;
+}
+
+.letter {
+  width: 30px; /* ajustez la taille selon vos besoins */
+  height: 30px; /* ajustez la taille selon vos besoins */
+  background-color: #f0f0f0; /* couleur de fond */
+  font-family: "Times New Roman", Times, serif; /* Utilisation d'une police qui évoque l'impression de journaux */
+  font-size: 32px;
+  font-weight: 900;
+}
+
+.letter_s {
+  clip-path: polygon(
+    54% 0,
+    64% 0,
+    66% 9%,
+    67% 69%,
+    69% 99%,
+    54% 100%,
+    0 100%,
+    6% 67%,
+    5% 6%,
+    30% 0
+  );
+}
+
+.letter_u {
+  clip-path: polygon(
+    54% 0,
+    63% 0,
+    73% 15%,
+    89% 45%,
+    77% 84%,
+    54% 100%,
+    12% 96%,
+    6% 67%,
+    13% 12%,
+    24% 4%
+  );
+}
+
+.letter_e {
+  clip-path: polygon(
+    54% 0,
+    63% 0,
+    78% 6%,
+    84% 46%,
+    83% 94%,
+    54% 100%,
+    0 98%,
+    0 67%,
+    9% 18%,
+    24% 4%
+  );
+}
+
+.letter_d {
+  clip-path: polygon(
+    54% 0,
+    80% 4%,
+    82% 30%,
+    99% 50%,
+    97% 97%,
+    54% 100%,
+    6% 96%,
+    0 67%,
+    0 8%,
+    13% 0
+  );
+}
+
+.letter_e2 {
+  clip-path: polygon(
+    54% 0,
+    92% 0,
+    98% 15%,
+    87% 51%,
+    81% 87%,
+    63% 100%,
+    4% 100%,
+    2% 67%,
+    10% 23%,
+    14% 0
+  );
+}
+
+.letters {
+  position: absolute;
+  bottom: 10px;
+  right: -35px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  color: black;
+}
+
+.text_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  margin-left: 10%;
+}
+
+.text {
+  min-width: 100px;
+  color: var(--text-primary-color);
+  font-size: 1rem;
+  margin: 1rem;
+}
+
+.text_strong {
+  color: var(--logo-primary-color);
+  font-size: 1rem;
+  margin: 0.2rem;
+  font-weight: bold;
+}
+
+.text > a {
+  color: var(--text--secondary-color);
+}
+
+.text > a > strong:hover {
+  color: var(--logo-primary-hover);
+  text-decoration: wavy;
 }

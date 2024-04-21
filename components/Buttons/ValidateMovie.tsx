@@ -1,16 +1,15 @@
 "use client";
-import { createMovie } from "@/app/actions/movies.action";
-import { updatePodcast } from "@/app/actions/podcast.action";
+
 import { handleValidateFilm } from "@/app/actions/tmdb.action";
-import { Movie } from "@/models/podcast.model";
-import { revalidatePath } from "next/cache";
 import { useRouter } from "next/navigation";
 import { FormEventHandler } from "react";
-import { useFormStatus } from "react-dom";
+
+import styles from "./button.module.css";
 export type ValidateMovieProps = {
   film: any;
   guid: string;
   setFilmsWithMatching: any;
+  setFilmSelectedDetails: any;
 };
 
 export const ValidateMovie = (props: ValidateMovieProps) => {
@@ -26,19 +25,16 @@ export const ValidateMovie = (props: ValidateMovieProps) => {
 
     const getMovieDetail = await handleValidateFilm(formData);
 
-    await Promise.all([
-      updatePodcast(guid, getMovieDetail.idTmdb),
-      createMovie(getMovieDetail),
-    ]).then((values) => {
-      console.log("PROMESSE OK");
-      props.setFilmsWithMatching([]);
-      router.refresh();
-    });
+    props.setFilmSelectedDetails(getMovieDetail);
+    props.setFilmsWithMatching([]);
+    router.refresh();
   };
 
   return (
     <form onSubmit={onSubmit}>
-      <button type="submit">OK</button>{" "}
+      <button className={styles.button} type="submit">
+        Selectionner
+      </button>{" "}
     </form>
   );
 };

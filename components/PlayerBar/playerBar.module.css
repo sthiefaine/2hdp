@@ -1,0 +1,135 @@
+.container {
+  position: sticky;
+  height: 60px;
+  z-index: 1000;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--background-primary-color);
+  color: black;
+}
+
+.player_bar_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 90%;
+  padding-bottom: 4px;
+}
+
+.player_title {
+  font-size: 12;
+  font-weight: bold;
+  margin-right: 20px;
+  color: seashell;
+}
+
+.player_button {
+  min-width: 32px;
+  position: relative; /* Pour positionner le pseudo-élément par rapport au bouton */
+  width: 32px;
+  height: 32px;
+  background: rgb(253, 224, 71);
+  border: solid 1px rgb(253, 224, 71);
+  border-radius: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 15px;
+  cursor: pointer;
+}
+
+/* Pseudo-élément pour l'effet de lueur */
+.player_button::before {
+  content: ""; /* Obligatoire pour les pseudo-éléments */
+  position: absolute; /* Position absolue par rapport au bouton */
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  border-radius: 40px; /* Un peu plus grand que le bouton */
+  box-shadow: 0 0 2px 2px rgba(253, 224, 71, 1); /* Effet de lueur */
+  filter: blur(1.2px); /* Flou pour l'effet de lueur */
+  z-index: -1; /* Placer derrière le bouton */
+  animation: pulse-border 2s infinite; /* Animation de la bordure pulsante */
+}
+
+/* Animation de la bordure pulsante */
+@keyframes pulse-border {
+  0% {
+    transform: scale(1);
+    opacity: 1; /* Opacité de la bordure au début de l'animation */
+  }
+  50% {
+    transform: scale(1.02); /* Zoom de la bordure à mi-chemin de l'animation */
+    opacity: 0.8; /* Opacité de la bordure à mi-chemin de l'animation */
+  }
+  100% {
+    transform: scale(
+      1.04
+    ); /* Zoom maximum de la bordure à la fin de l'animation */
+    opacity: 1; /* Opacité de la bordure à la fin de l'animation */
+  }
+}
+
+.player_bar {
+  width: 100%;
+  max-width: 600px;
+  min-width: 220px;
+  height: 30px;
+  background: rgba(0, 0, 0, 0.2);
+  border: solid 1px rgb(253, 224, 71);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  cursor: pointer;
+}
+
+.player_bar_timer {
+  margin-right: 20px;
+  color: rgb(253, 224, 71);
+  padding: 3px 7px;
+  border-radius: 20px;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.player_download {
+  margin-left: 20px;
+  padding: 10px;
+
+  border-radius: 20px;
+  background-color: rgb(253, 224, 71);
+}
+
+.button {
+  min-width: 30px;
+  background-color: var(--logo-primary-color);
+  border: none;
+  border-radius: 6px;
+  color: var(--text-tertiary-color);
+  cursor: pointer;
+  font-size: 1.1rem;
+  margin-left: 5px;
+  padding: 0.3rem;
+
+  display: flex;
+  align-items: center;
+}
+
+.button > a {
+  color: var(--text-tertiary-color);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.button_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+}

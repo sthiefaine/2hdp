@@ -8,9 +8,7 @@ export default function MovieImg() {
 
     const formData = new FormData(e.currentTarget);
 
-    const url = await uploadPosterMovies(formData);
-
-    console.log("url", url);
+    await uploadPosterMovies(formData);
   };
 
   return (

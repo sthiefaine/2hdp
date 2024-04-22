@@ -1,5 +1,5 @@
 "use server";
-import prisma from "@/helpers/prisma";
+import prisma from "@/lib/prisma";
 import { Movie, Podcast } from "@/models/podcast.model";
 
 export const getPodcastAndMovieInfo = async (slug: string) => {

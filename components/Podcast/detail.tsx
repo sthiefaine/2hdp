@@ -70,8 +70,6 @@ export const PodcastDetail = ({
     setIsPlaying(false);
   };
 
-  console.log(session);
-
   return (
     <>
       <div className={styles.container}>

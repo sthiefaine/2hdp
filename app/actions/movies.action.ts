@@ -1,5 +1,5 @@
 "use server";
-import prisma from "@/helpers/prisma";
+import prisma from "@/lib/prisma";
 
 export const createMovie = async (movie: any) => {
   /*   const imageUrl = await fetch(

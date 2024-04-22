@@ -1,7 +1,7 @@
 "use server";
 import { slugify } from "@/helpers";
 import { parseFrenchDate } from "@/helpers/dates";
-import prisma from "@/helpers/prisma";
+import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { parse } from "node-html-parser";

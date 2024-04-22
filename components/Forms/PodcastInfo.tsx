@@ -163,7 +163,7 @@ export default function PodcastInfo({
           type="number"
           name="idAllocine"
           placeholder="00000"
-          defaultValue={podcastInfo?.[0]?.idAllocine}
+          defaultValue={podcastInfo?.[0]?.movieIdAlloCine}
         />
         <label htmlFor="comentaire">Commentaire FanDeCoach</label>
         <br />

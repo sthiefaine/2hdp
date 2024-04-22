@@ -1,5 +1,5 @@
 "use server";
-import prisma from "@/helpers/prisma";
+import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import parse from "node-html-parser";
 

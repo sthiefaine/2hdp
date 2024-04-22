@@ -1,7 +1,11 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 import Parser from "rss-parser";
 
-export async function GET() {
+export const config = {
+  runtime: "edge",
+};
+
+export default async function GET() {
   const prisma = new PrismaClient();
   const parser = new Parser();
   const feedData = await parser.parseURL("https://feed.ausha.co/Loa7srdWGm1b");

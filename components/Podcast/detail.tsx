@@ -8,21 +8,21 @@ import styles from "./detail.module.css";
 import { ModalReview } from "./modalReview";
 
 import { Download, MessageCircleHeart, Pause, Play } from "lucide-react";
-import { LoginButton, LogoutButton } from "../Buttons/AuthButton";
+import { useSession } from "next-auth/react";
 
 export type PodcastPlayerProps = {
   result: Array<any>;
   reviewInfo: Array<any>;
   previousAndNext: { previousPodcast: any; nextPodcast: any };
-  session: any;
 };
 
 export const PodcastDetail = ({
   result,
   reviewInfo,
   previousAndNext,
-  session,
 }: PodcastPlayerProps) => {
+  const { data: session, status } = useSession();
+  const loggedIn = status === "authenticated" && session.user?.name;
   const { podcast, setPodcast, isPlaying, setIsPlaying } = usePlayer();
   const [displayOpenEditMovie, setDisplayOpenEditMovie] = useState(false);
   const [displayReview, setDisplayReview] = useState(false);
@@ -100,13 +100,8 @@ export const PodcastDetail = ({
             </span>
           )}
 
-          {!session && <LoginButton />}
-
-          {session?.user && (
+          {loggedIn && (
             <>
-              <span>
-                <LogoutButton />
-              </span>
               <button className={styles.button} onClick={openEditMovie}>
                 EDITER
               </button>

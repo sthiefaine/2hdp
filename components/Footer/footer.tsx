@@ -1,8 +1,13 @@
+"use client";
+import { useSession } from "next-auth/react";
+import { LoginButton, LogoutButton } from "../Buttons/AuthButton";
 import styles from "./footer.module.css";
 
 import Image from "next/image";
 
 export function Footer() {
+  const { data: session, status } = useSession();
+  const loggedIn = status === "authenticated" && session.user?.name;
   return (
     <footer className={styles.footer}>
       Données fournies par{" "}
@@ -33,6 +38,17 @@ export function Footer() {
             width={100}
           />
         </a>
+        <p>
+          {!loggedIn && <LoginButton />}
+
+          {loggedIn && (
+            <>
+              <span>
+                <LogoutButton />
+              </span>
+            </>
+          )}
+        </p>
       </div>
     </footer>
   );

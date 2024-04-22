@@ -3,7 +3,7 @@ import { List } from "@/components/Lists/List";
 import { fetchAllPodcastsListWithMovie } from "./actions/podcast.action";
 
 import { Search } from "@/components/Search/Search";
-import { MainProvider } from "@/context";
+import { PodcastListProvider } from "@/context/podcastList.context";
 import styles from "./page.module.css";
 
 const getData = async () => {
@@ -15,12 +15,12 @@ export default async function Home() {
   const podcastsList = await getData();
 
   return (
-    <MainProvider podcastList={podcastsList}>
+    <PodcastListProvider value={podcastsList}>
       <main className={styles.main}>
         <Intro />
         <Search />
         <List />
       </main>
-    </MainProvider>
+    </PodcastListProvider>
   );
 }

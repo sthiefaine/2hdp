@@ -10,7 +10,6 @@ import {
   fetchAllPodcastsListWithMovie,
   getPreviousAndNextPodcast,
 } from "@/app/actions/podcast.action";
-import { auth } from "@/lib/auth";
 import { Metadata, ResolvingMetadata } from "next";
 import styles from "./page.module.css";
 
@@ -57,13 +56,11 @@ export default async function Detail({ params }: DetailProps) {
   const result: any = await getPodcastAndMovieInfo(slug);
   const reviewInfo: any = await getPodcastReview(slug);
   const previousAndNext = await getPreviousAndNextPodcast(slug);
-  const session = await auth();
 
   return (
     <>
       <main className={styles.main}>
         <PodcastDetail
-          session={session}
           result={result}
           reviewInfo={reviewInfo}
           previousAndNext={previousAndNext}

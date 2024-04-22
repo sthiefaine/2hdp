@@ -1,9 +1,12 @@
 "use server";
+import { Prisma, PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import Parser from "rss-parser";
-import { Prisma, PrismaClient } from "@prisma/client";
 
-export const GET = async (request: NextRequest) => {
+import { revalidatePath } from "next/cache";
+
+export async function GET(req: NextRequest) {
+  console.log("GET podcast started");
   const prisma = new PrismaClient();
   const parser = new Parser();
   const feedData = await parser.parseURL("https://feed.ausha.co/Loa7srdWGm1b");
@@ -32,14 +35,13 @@ export const GET = async (request: NextRequest) => {
     })
   );
 
-  const json = {
-    podcastsList,
-  };
-
   await prisma.podcasts.createMany({
     data: podcastsList,
     skipDuplicates: true,
   });
 
-  return NextResponse.json(json);
-};
+  revalidatePath("/", "page");
+  return new NextResponse(JSON.stringify(podcastsList), {
+    status: 200,
+  });
+}

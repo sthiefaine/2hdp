@@ -2,7 +2,7 @@ import { Prisma, PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import Parser from "rss-parser";
 
-import { revalidatePath } from "next/cache";
+export const revalidate = 0;
 
 export async function GET(req: NextRequest) {
   console.log("Cron job started", req.url.split("/").pop());
@@ -39,7 +39,6 @@ export async function GET(req: NextRequest) {
     skipDuplicates: true,
   });
 
-  revalidatePath("/", "page");
   return new NextResponse(JSON.stringify(podcastsList), {
     status: 200,
   });

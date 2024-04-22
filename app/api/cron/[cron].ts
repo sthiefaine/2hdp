@@ -1,11 +1,12 @@
 import { Prisma, PrismaClient } from "@prisma/client";
+import { NextRequest, NextResponse } from "next/server";
 import Parser from "rss-parser";
 
 export const config = {
   runtime: "edge",
 };
 
-export default async function GET() {
+export default async function handler(req: NextRequest) {
   const prisma = new PrismaClient();
   const parser = new Parser();
   const feedData = await parser.parseURL("https://feed.ausha.co/Loa7srdWGm1b");
@@ -43,5 +44,7 @@ export default async function GET() {
     skipDuplicates: true,
   });
 
-  return Response.json(await json);
+  return new NextResponse(JSON.stringify(json), {
+    status: 200,
+  });
 }

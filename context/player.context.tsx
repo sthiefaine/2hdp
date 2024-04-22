@@ -1,14 +1,18 @@
 "use client";
 import { PropsWithChildren, createContext, useContext, useState } from "react";
 
+type PodcastInfo = {
+  artist: string;
+  title: string;
+  url: string;
+  img: string;
+};
+
 type PlayerContext = {
   isPlaying: boolean;
   setIsPlaying: (isPlaying: boolean) => void;
-  setPodcast: (podcast: { title: string; url: string }) => void;
-  podcast: {
-    title: string;
-    url: string;
-  };
+  setPodcast: (podcast: PodcastInfo) => void;
+  podcast: PodcastInfo;
 };
 
 const playerContext = createContext<PlayerContext>({
@@ -17,7 +21,9 @@ const playerContext = createContext<PlayerContext>({
   setPodcast: () => {},
   podcast: {
     title: "",
+    artist: "",
     url: "",
+    img: "",
   },
 });
 
@@ -27,7 +33,9 @@ export const PlayerProvider = (
   const [isPlaying, setIsPlaying] = useState(false);
   const [podcast, setPodcast] = useState({
     title: "",
+    artist: "",
     url: "",
+    img: "",
   });
 
   return (

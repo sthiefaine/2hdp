@@ -20,6 +20,21 @@ export function List({ data }: ListProps) {
 
   const filteredPodcasts: PodcastsAndMovieData[] = podcastsList?.filter(
     (podcast: any) => {
+      if (
+        seasonSearch &&
+        search?.fandecoatch &&
+        podcastSearchKeyWord.length > 0
+      ) {
+        const filteredPodcasts =
+          podcast.saison === seasonSearch &&
+          podcast.saison !== null &&
+          podcast.review !== null &&
+          podcastSearchKeyWord.every((word: string) =>
+            podcast.title.toLowerCase().includes(word)
+          );
+
+        return filteredPodcasts ?? [];
+      }
       if (seasonSearch && search?.fandecoatch) {
         const filteredPodcasts =
           podcast.saison === seasonSearch &&
@@ -39,8 +54,17 @@ export function List({ data }: ListProps) {
         return filteredPodcasts ?? [];
       }
 
-      if (search?.fandecoatch) {
+      if (search?.fandecoatch && podcastSearchKeyWord.length === 0) {
         return podcast.review && podcast.review !== null;
+      }
+      if (search?.fandecoatch && podcastSearchKeyWord.length > 0) {
+        return (
+          podcast.review &&
+          podcast.review !== null &&
+          podcastSearchKeyWord.every((word: string) =>
+            podcast.title.toLowerCase().includes(word)
+          )
+        );
       }
       return (
         podcastSearchKeyWord.every((word: string) =>

@@ -60,8 +60,11 @@ export const PodcastDetail = ({
 
     if (podcast.url !== result[0].audio) {
       setPodcast({
+        ...podcast,
         title: result[0].title ?? result[0].movieTitle,
         url: result[0].audio,
+        img: result[0].poster,
+        artist: result[0].speakers?.join(", ") ?? "",
       });
     }
   };
@@ -73,6 +76,7 @@ export const PodcastDetail = ({
   return (
     <>
       <div className={styles.container}>
+        {" "}
         <Image
           className={styles.landingImage}
           src={
@@ -80,160 +84,159 @@ export const PodcastDetail = ({
               ? result[0]?.poster
               : "/cover.jpg"
           }
-          alt="Poster of the movie"
           style={{ objectFit: "cover" }}
+          alt="Poster of the movie"
+          quality={100}
           fill={true}
-        />{" "}
-        <div className={styles.child}>
-          <div className={styles.informations}>
-            <h1 className={styles.title}>
-              {result[0].title ?? result[0].movieTitle}
-            </h1>
-            {result[0].releaseDate && (
-              <span className={styles.releaseDate}>
-                {"(" + new Date(result[0].releaseDate).getFullYear() + ")"}
+          priority={true}
+        />
+        <div className={styles.informations}>
+          <h1 className={styles.title}>
+            {result[0].title ?? result[0].movieTitle}
+          </h1>
+          {result[0].releaseDate && (
+            <span className={styles.releaseDate}>
+              {"(" + new Date(result[0].releaseDate).getFullYear() + ")"}
+            </span>
+          )}
+
+          {!session && <LoginButton />}
+
+          {session?.user && (
+            <>
+              <span>
+                <LogoutButton />
+              </span>
+              <button className={styles.button} onClick={openEditMovie}>
+                EDITER
+              </button>
+            </>
+          )}
+          <div className={styles.subtitle}>
+            {result[0].directorsName && (
+              <span className={styles.directors}>
+                de {result[0].directorsName?.join(", ")}
               </span>
             )}
+          </div>
+          <div className={styles.text}>
+            <span className={styles.saison}>S{result[0].saison}</span>
+            <span className={styles.episode}>E{result[0].episode}</span>
+            <span className={styles.description}>
+              {result[0].descriptionHtml ?? result[0].description}
+            </span>
+          </div>
 
-            {!session && <LoginButton />}
-
-            {session?.user && (
-              <>
-                <span>
-                  <LogoutButton />
-                </span>
-                <button className={styles.button} onClick={openEditMovie}>
-                  EDITER
-                </button>
-              </>
+          <div className={styles.actionBar}>
+            {(!isPlaying || result[0].audio !== podcast?.url) && (
+              <button
+                className={styles.buttonAction}
+                onClick={() => handleListen()}
+              >
+                <Play /> Écouter
+              </button>
             )}
-            <div className={styles.subtitle}>
-              {result[0].directorsName && (
-                <span className={styles.directors}>
-                  de {result[0].directorsName?.join(", ")}
-                </span>
-              )}
-            </div>
-            <div className={styles.text}>
-              <span className={styles.saison}>S{result[0].saison}</span>
-              <span className={styles.episode}>E{result[0].episode}</span>
-              <span className={styles.description}>
-                {result[0].descriptionHtml ?? result[0].description}
-              </span>
-            </div>
+            {isPlaying && result[0].audio === podcast.url && (
+              <button
+                className={styles.buttonAction}
+                onClick={() => handlePause()}
+              >
+                <Pause /> Pause
+              </button>
+            )}
 
-            <div className={styles.actionBar}>
-              {(!isPlaying || result[0].audio !== podcast?.url) && (
-                <button
-                  className={styles.buttonAction}
-                  onClick={() => handleListen()}
-                >
-                  <Play /> Écouter
-                </button>
-              )}
-              {isPlaying && result[0].audio === podcast.url && (
-                <button
-                  className={styles.buttonAction}
-                  onClick={() => handlePause()}
-                >
-                  <Pause /> Pause
-                </button>
-              )}
+            <button className={styles.buttonAction}>
+              <a
+                href={result[0].audio}
+                download
+                about="Télécharger le podcast"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Download /> Télécharger
+              </a>
+            </button>
 
+            {reviewInfo[0]?.review && (
+              <button
+                className={styles.buttonAction}
+                onClick={() => setDisplayReview(true)}
+              >
+                <MessageCircleHeart /> Fandecoatch
+              </button>
+            )}
+
+            {result[0].idTmdb && result[0].isMovie && (
               <button className={styles.buttonAction}>
                 <a
-                  href={result[0].audio}
-                  download
-                  about="Télécharger le podcast"
+                  href={`https://www.themoviedb.org/movie/${result[0].idTmdb}`}
+                  about="ouvrir le lien Tmdb"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Download /> Télécharger
+                  <Image
+                    src="/tmdb_icon.svg"
+                    alt="tmdb"
+                    width={100}
+                    height={30}
+                  />{" "}
                 </a>
               </button>
+            )}
 
-              {reviewInfo[0]?.review && (
-                <button
-                  className={styles.buttonAction}
-                  onClick={() => setDisplayReview(true)}
+            {reviewInfo[0]?.idAlloCine && (
+              <button className={styles.buttonAction}>
+                <a
+                  href={`https://www.allocine.fr/film/fichefilm_gen_cfilm=${reviewInfo[0]?.idAlloCine}.html`}
+                  about="ouvrir le lien Allociné"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
-                  <MessageCircleHeart /> Fandecoatch
-                </button>
-              )}
-
-              {result[0].idTmdb && result[0].isMovie && (
-                <button className={styles.buttonAction}>
-                  <a
-                    href={`https://www.themoviedb.org/movie/${result[0].idTmdb}`}
-                    about="ouvrir le lien Tmdb"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Image
-                      src="/tmdb_icon.svg"
-                      alt="tmdb"
-                      width={100}
-                      height={30}
-                    />{" "}
-                  </a>
-                </button>
-              )}
-
-              {reviewInfo[0]?.idAlloCine && (
-                <button className={styles.buttonAction}>
-                  <a
-                    href={`https://www.allocine.fr/film/fichefilm_gen_cfilm=${reviewInfo[0]?.idAlloCine}.html`}
-                    about="ouvrir le lien Allociné"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Image
-                      src="/allocine_icon.svg"
-                      alt="tmdb"
-                      width={100}
-                      height={30}
-                    />
-                  </a>
-                </button>
-              )}
-            </div>
-
-            <div>
-              <span className={styles.publishDate}>
-                Publié le{" "}
-                {result[0].createdAt.toLocaleDateString("fr-FR", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </span>
-              {result[0]?.speakers && (
-                <span className={styles.speakers}>
-                  Avec {result[0]?.speakers?.join(", ")}
-                </span>
-              )}
-            </div>
+                  <Image
+                    src="/allocine_icon.svg"
+                    alt="tmdb"
+                    width={100}
+                    height={30}
+                  />
+                </a>
+              </button>
+            )}
           </div>
 
-          <div className={styles.card__bottom__container}>
-            <div className={styles.card__navigation}>
-              {nextPodcast && (
-                <div className={styles.card__navigation__container}>
-                  <span className={styles.card__navigation__title}>
-                    Suivant
-                  </span>
-                  <Card item={nextPodcast} />
-                </div>
-              )}
-              {previousPodcast && (
-                <div className={styles.card__navigation__container}>
-                  <span className={styles.card__navigation__title}>
-                    Précédent
-                  </span>
-                  <Card item={previousPodcast} />
-                </div>
-              )}
-            </div>
+          <div>
+            <span className={styles.publishDate}>
+              Publié le{" "}
+              {result[0].createdAt.toLocaleDateString("fr-FR", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </span>
+            {result[0]?.speakers && (
+              <span className={styles.speakers}>
+                Avec {result[0]?.speakers?.join(", ")}
+              </span>
+            )}
+          </div>
+        </div>
+      </div>
+      <div className={styles.child}>
+        <div className={styles.card__bottom__container}>
+          <div className={styles.card__navigation}>
+            {nextPodcast && (
+              <div className={styles.card__navigation__container}>
+                <span className={styles.card__navigation__title}>Suivant</span>
+                <Card item={nextPodcast} />
+              </div>
+            )}
+            {previousPodcast && (
+              <div className={styles.card__navigation__container}>
+                <span className={styles.card__navigation__title}>
+                  Précédent
+                </span>
+                <Card item={previousPodcast} />
+              </div>
+            )}
           </div>
         </div>
       </div>

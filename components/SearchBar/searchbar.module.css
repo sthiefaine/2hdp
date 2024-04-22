@@ -6,6 +6,7 @@
   border-radius: 12px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
   transition: box-shadow 0.3s ease;
+  min-width: 300px;
 }
 
 .searchbar__label {

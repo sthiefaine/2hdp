@@ -37,6 +37,7 @@
     "react-dom": "^18.2",
     "react-hook-form": "^7.50.1",
     "rss-parser": "^3.13.0",
+    "sharp": "^0.33.3",
     "swr": "^2.2.5",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",

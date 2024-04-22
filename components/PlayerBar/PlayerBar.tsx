@@ -19,13 +19,27 @@ export const PlayerBar = () => {
   const progressBarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if ("mediaSession" in navigator) {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: podcast.title,
+        artist: podcast.artist,
+        artwork: [
+          {
+            src: podcast.img,
+            sizes: "1280x720",
+            type: "image/png",
+          },
+        ],
+      });
+    }
+  }, [podcast]);
+
+  useEffect(() => {
+    setFormattedDurationTotal("00:00:00");
     const audioElement = audioRef.current;
     if (!audioElement) return;
     const setAudioData = () => {
       setDurationTotal(audioElement.duration);
-      if (isPlaying) {
-        setDuration(audioElement.duration);
-      }
     };
 
     const updateProgress = () => {
@@ -116,7 +130,12 @@ export const PlayerBar = () => {
     audioElement.currentTime = 0;
     audioElement.pause();
     setIsPlaying(false);
-    setPodcast({ title: "", url: "" });
+    setPodcast({
+      title: "",
+      artist: "",
+      url: "",
+      img: "",
+    });
   };
 
   if (!podcast.url) {

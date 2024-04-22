@@ -11,6 +11,7 @@ import {
   getPreviousAndNextPodcast,
 } from "@/app/actions/podcast.action";
 import { auth } from "@/lib/auth";
+import { Metadata, ResolvingMetadata } from "next";
 import styles from "./page.module.css";
 
 interface DetailProps {
@@ -22,6 +23,33 @@ export async function generateStaticParams() {
   return items.map((item) => ({
     slug: item.slug,
   }));
+}
+
+export async function generateMetadata(
+  { params }: DetailProps,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  // read route params
+  const slug = params.slug;
+
+  // fetch data
+  const product: any = await getPodcastAndMovieInfo(slug);
+
+  // optionally access and extend (rather than replace) parent metadata
+  const previousImages = (await parent).openGraph?.images || [];
+
+  return {
+    title: product?.[0].title,
+    openGraph: {
+      images: [
+        {
+          url: product?.[0].poster,
+          width: 1280,
+          height: 720,
+        },
+      ],
+    },
+  };
 }
 
 export default async function Detail({ params }: DetailProps) {

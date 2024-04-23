@@ -40,7 +40,7 @@ export async function generateMetadata(
   const previousImages = (await parent).openGraph?.images || [];
 
   return {
-    metadataBase: new URL(`${process.env.VERCEL_URL}`),
+    metadataBase: new URL(`${process.env.SITE_URL}`),
     keywords: ["2hdp", "podcast", "cinema", "film", "fandecoatch"],
     title: product?.[0].title,
     openGraph: {

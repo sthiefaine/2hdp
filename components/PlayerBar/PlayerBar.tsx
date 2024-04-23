@@ -1,6 +1,7 @@
 "use client";
 import { usePlayer } from "@/context/player.context";
 import { slugify } from "@/helpers";
+import { getAverageRGB } from "@/helpers/colors";
 import { CircleX, Eye, PauseIcon, PlayIcon } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -17,6 +18,13 @@ export const PlayerBar = () => {
   const [formattedDurationTotal, setFormattedDurationTotal] =
     useState("00:00:00");
   const progressBarRef = useRef<HTMLDivElement>(null);
+  const [test, setTest] = useState<Number[]>([0, 0, 0]);
+
+  useEffect(() => {
+    getAverageRGB(podcast.img).then((res: any) => {
+      setTest(res);
+    });
+  }, [podcast.img]);
 
   useEffect(() => {
     if ("mediaSession" in navigator) {
@@ -143,7 +151,12 @@ export const PlayerBar = () => {
   }
 
   return (
-    <div className={styles.container}>
+    <div
+      className={styles.container}
+      style={{
+        backgroundColor: `rgba(${test[0]}, ${test[1]}, ${test[2]})`,
+      }}
+    >
       <div className={styles.player_title}>{podcast.title}</div>{" "}
       <div id="playerBar" className={styles.player_bar_container}>
         <audio

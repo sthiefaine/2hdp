@@ -63,7 +63,7 @@ export const PodcastDetail = ({
         ...podcast,
         title: result[0].title ?? result[0].movieTitle,
         url: result[0].audio,
-        img: result[0].poster,
+        img: result[0].poster ?? "/cover.jpg",
         artist: result[0].speakers?.join(", ") ?? "",
       });
     }

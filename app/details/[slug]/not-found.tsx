@@ -5,7 +5,7 @@ export default function NotFound() {
   return (
     <main className={styles.main}>
       <div className={styles.container}>
-        <h2>Not Found 1</h2>
+        <h2>Not Found </h2>
         <p>Could not find requested resource</p>
         <Link href="/">Return Home</Link>
       </div>

@@ -2,7 +2,9 @@
 import prisma from "@/lib/prisma";
 import { Movie, Podcast } from "@/models/podcast.model";
 
-export const getPodcastAndMovieInfo = async (slug: string) => {
+import { cache } from "react";
+
+export const getPodcastAndMovieInfo = cache(async (slug: string) => {
   const result: Podcast & Pick<Movie, "poster"> & { movieTitle: string } =
     await prisma.$queryRaw`
   SELECT "Podcasts".*,
@@ -20,9 +22,9 @@ export const getPodcastAndMovieInfo = async (slug: string) => {
   LIMIT 1;
   `;
   return result;
-};
+});
 
-export const getPodcastReview = async (slug: string) => {
+export const getPodcastReview = cache(async (slug: string) => {
   const result: Podcast & {
     ReviewReleaseDate: Date;
     review: string;
@@ -42,7 +44,7 @@ export const getPodcastReview = async (slug: string) => {
     LIMIT 1;
   `;
   return result;
-};
+});
 
 export const getPodcastInfo = async (idTmdb: string) => {
   const result: Podcast & {

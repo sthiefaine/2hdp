@@ -58,7 +58,7 @@ export default function FilmInfo({
           type="text"
           name="title"
           required
-          defaultValue={title ?? filmSelectedDetails.title}
+          defaultValue={filmSelectedDetails.title ?? title}
           placeholder="retour vers le futur"
         />
         <label htmlFor="year">Année</label>

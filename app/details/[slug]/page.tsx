@@ -55,8 +55,6 @@ export async function generateMetadata(
   };
 }
 
-const revalidate = false;
-
 export default async function Detail({ params }: DetailProps) {
   const { slug } = params;
   const resultData: any = await getPodcastAndMovieInfo(slug);

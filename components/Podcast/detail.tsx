@@ -121,7 +121,6 @@ export const PodcastDetail = ({
               {result[0].descriptionHtml ?? result[0].description}
             </span>
           </div>
-
           <div className={styles.actionBar}>
             {(!isPlaying || result[0].audio !== podcast?.url) && (
               <button

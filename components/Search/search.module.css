@@ -1,9 +1,11 @@
 .container__search {
   display: flex;
   flex-direction: column;
-  max-width: 500px;
   margin: 0 auto;
-  padding: 0 10px;
+  max-width: 800px;
+  padding: 0 20px;
+  justify-content: center;
+  align-items: center;
 }
 
 .container__options {
@@ -11,6 +13,8 @@
   margin-bottom: 20px;
   display: flex;
   flex-direction: row;
+  margin: 0 auto;
+  width: 100%;
   justify-content: center;
   gap: 20px;
 }

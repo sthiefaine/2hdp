@@ -2,7 +2,6 @@
 
 import prisma from "@/lib/prisma";
 import { Movie, Podcast } from "@/models/podcast.model";
-import { revalidatePath } from "next/cache";
 import { cache } from "react";
 
 export const updatePodcast = async (guid: string, idTmdb: number) => {
@@ -96,7 +95,6 @@ export const getNextPodcast = async (slug: string) => {
 export const getPreviousAndNextPodcast = cache(async (slug: string) => {
   const previousPodcast = await getPreviousPodcast(slug);
   const nextPodcast = await getNextPodcast(slug);
-  revalidatePath(`/details/${slug}`);
   return {
     previousPodcast,
     nextPodcast,

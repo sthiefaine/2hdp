@@ -30,18 +30,28 @@ export const getPodcastReview = cache(async (slug: string) => {
     review: string;
     rating: number;
   } = await prisma.$queryRaw`
-  SELECT "Podcasts".*,
-  "Reviews"."releaseDate" as "ReviewReleaseDate",
-  "Reviews"."review",
-  "Reviews"."rating",
-  "Reviews"."idAlloCine",
-  "Movies"."slug"
-    FROM "Podcasts"
-    LEFT JOIN "Movies" ON "Podcasts"."movieIdTmdb" = "Movies"."idTmdb"
-    LEFT JOIN "Reviews" ON (("Podcasts"."movieIdAlloCine" IS NULL AND "Movies"."slug" = "Reviews"."slug") OR
-                        ("Reviews"."idAlloCine" IS NOT NULL AND "Podcasts"."movieIdAlloCine" = "Reviews"."idAlloCine"))
-    WHERE "Podcasts"."slug" = ${slug}
-    LIMIT 1;
+SELECT 
+    "Podcasts".*,
+    "UniqueReviews"."releaseDate" as "ReviewReleaseDate",
+    "UniqueReviews"."review",
+    "UniqueReviews"."rating",
+    "UniqueReviews"."idAlloCine",
+    "Movies"."slug"
+FROM 
+    "Podcasts"
+LEFT JOIN 
+    "Movies" ON "Podcasts"."movieIdTmdb" = "Movies"."idTmdb"
+LEFT JOIN (
+    SELECT 
+        *,
+        ROW_NUMBER() OVER (PARTITION BY "slug" ORDER BY "id") AS row_number
+    FROM 
+        "Reviews"
+) AS "UniqueReviews" ON "Podcasts"."movieIdAlloCine" = "UniqueReviews"."idAlloCine" OR "Movies"."slug" = "UniqueReviews"."slug"
+WHERE 
+    ("UniqueReviews".row_number = 1 OR "UniqueReviews"."id" IS NULL)
+    AND "Podcasts"."slug" = ${slug}
+LIMIT 1;
   `;
   return result;
 });

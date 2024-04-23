@@ -226,6 +226,7 @@
 
 .buttonAction {
   min-width: 142px;
+  max-width: 200px;
   min-height: 46px;
   background-color: var(--logo-primary-color);
   border: none;
@@ -289,5 +290,8 @@
   }
   .card__navigation {
     flex-direction: column;
+  }
+  .buttonAction {
+    max-width: none;
   }
 }

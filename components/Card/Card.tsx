@@ -27,6 +27,7 @@ const Card = ({
                 alt="Picture of the author"
                 width={750}
                 height={400}
+                style={{ objectFit: "cover" }}
                 className={styles.image}
               />
             )}

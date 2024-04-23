@@ -30,7 +30,7 @@ export const Search = ({}: SearchProps) => {
             checked={search.fandecoatch}
           />
           <label className={styles.label} htmlFor="fandecoatch">
-            Avec des avis de fandecoatch
+            Avec fandecoatch
           </label>
         </div>
       </div>

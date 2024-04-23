@@ -73,6 +73,11 @@ export const PodcastDetail = ({
     setIsPlaying(false);
   };
 
+  if (!result[0]) {
+    console.log("No result found", result);
+    return null;
+  }
+
   return (
     <>
       <div className={styles.container}>

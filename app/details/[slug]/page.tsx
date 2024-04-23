@@ -20,7 +20,6 @@ interface DetailProps {
 
 export async function generateStaticParams() {
   const items = await fetchAllPodcastsListWithMovie();
-  console.log("generateStaticParams DETAIL", items[0].slug);
   return items.map((item) => ({
     slug: item.slug,
   }));
@@ -36,17 +35,20 @@ export async function generateMetadata(
   // fetch data
   const product: any = await getPodcastAndMovieInfo(slug);
 
+  if (!product[0]) {
+    console.error("No product found for slug", slug, product);
+  }
   // optionally access and extend (rather than replace) parent metadata
   const previousImages = (await parent).openGraph?.images || [];
 
   return {
     metadataBase: new URL(`${process.env.SITE_URL}`),
     keywords: ["2hdp", "podcast", "cinema", "film", "fandecoatch"],
-    title: product?.[0].title,
+    title: product?.[0]?.title,
     openGraph: {
       images: [
         {
-          url: product?.[0].poster,
+          url: product?.[0]?.poster,
           width: 1280,
           height: 720,
         },

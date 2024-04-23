@@ -6,7 +6,6 @@ import Parser from "rss-parser";
 import { revalidatePath } from "next/cache";
 
 export async function GET(req: NextRequest) {
-  console.log("GET podcast started");
   const prisma = new PrismaClient();
   const parser = new Parser();
   const feedData = await parser.parseURL("https://feed.ausha.co/Loa7srdWGm1b");

@@ -16,6 +16,7 @@ import { PlayerProvider } from "@/context/player.context";
 import { SearchProvider } from "@/context/search.context";
 
 import NextAuthProvider from "@/context/nextAuth.context";
+import { Analytics } from "@vercel/analytics/react";
 
 export default function RootLayout({
   children,
@@ -23,37 +24,40 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <NextAuthProvider>
-      <PlayerProvider>
-        <SearchProvider>
-          <html lang="fr">
-            <link
-              rel="apple-touch-icon"
-              sizes="180x180"
-              href="/favicon/apple-touch-icon.png"
-            />
-            <link
-              rel="icon"
-              type="image/png"
-              sizes="32x32"
-              href="/favicon/favicon-32x32.png"
-            />
-            <link
-              rel="icon"
-              type="image/png"
-              sizes="16x16"
-              href="/favicon/favicon-16x16.png"
-            />
-            <link rel="manifest" href="/favicon/site.webmanifest" />
-            <body>
-              <Header />
-              {children}
-              <Footer />
-              <PlayerBar />
-            </body>
-          </html>
-        </SearchProvider>
-      </PlayerProvider>
-    </NextAuthProvider>
+    <>
+      <Analytics />
+      <NextAuthProvider>
+        <PlayerProvider>
+          <SearchProvider>
+            <html lang="fr">
+              <link
+                rel="apple-touch-icon"
+                sizes="180x180"
+                href="/favicon/apple-touch-icon.png"
+              />
+              <link
+                rel="icon"
+                type="image/png"
+                sizes="32x32"
+                href="/favicon/favicon-32x32.png"
+              />
+              <link
+                rel="icon"
+                type="image/png"
+                sizes="16x16"
+                href="/favicon/favicon-16x16.png"
+              />
+              <link rel="manifest" href="/favicon/site.webmanifest" />
+              <body>
+                <Header />
+                {children}
+                <Footer />
+                <PlayerBar />
+              </body>
+            </html>
+          </SearchProvider>
+        </PlayerProvider>
+      </NextAuthProvider>
+    </>
   );
 }

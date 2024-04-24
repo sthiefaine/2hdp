@@ -56,6 +56,15 @@ LIMIT 1;
   return result;
 });
 
+export const getAllPicturesUrlFromPodcasts = async () => {
+  const result = await prisma.$queryRaw`
+  SELECT "Movies"."poster"
+  FROM "Movies"
+  WHERE "Movies"."poster" IS NOT NULL
+  `;
+  return result;
+};
+
 export const getPodcastInfo = async (idTmdb: string) => {
   const result: Podcast & {
     ReviewReleaseDate: Date;

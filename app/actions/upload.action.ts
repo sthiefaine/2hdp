@@ -11,6 +11,15 @@ export const uploadPosterMovies = async (formData: FormData) => {
 
   return blob.url;
 };
+export const uploadPictureOnUploadThing = async (formData: FormData) => {
+  const file = formData.get("image") as File;
+  const response = await fetch("/uploadthing", {
+    method: "POST",
+    body: file,
+  });
+  console.log("AAAAAAAAA", response);
+  return response;
+};
 
 export const uploadPosterCategories = async (formData: FormData) => {
   const file = formData.get("image") as File;

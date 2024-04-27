@@ -2,6 +2,12 @@
   background-color: var(--background-secondary-color);
 }
 
+.container {
+  position: relative;
+  min-height: 700px;
+  background-color: transparent;
+}
+
 .title {
   display: inline;
   font-size: 3rem;

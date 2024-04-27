@@ -3,13 +3,10 @@ import styles from "./searchbar.module.css";
 
 import { useDebouncedCallback } from "use-debounce";
 
-import { useSearch } from "@/context/search.context";
-import { useRef, useState } from "react";
+import { usePodcastsStore } from "@/zustand/context/podcasts";
 
 export function SearchBar() {
-  const { search, setSearch } = useSearch();
-  const [specialSearch, setSpecialSearch] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const { search, setSearch } = usePodcastsStore((s) => s);
 
   const handleSearch = useDebouncedCallback((term: string) => {
     setSearch({ ...search, title: term });

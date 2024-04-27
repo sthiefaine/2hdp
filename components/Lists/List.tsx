@@ -1,24 +1,20 @@
 "use client";
 import { PodcastsAndMovieData } from "@/app/actions/podcast.action";
-import { usePodcastList } from "@/context/podcastList.context";
-import { useSearch } from "@/context/search.context";
+import { usePodcastsStore } from "@/zustand/context/podcasts";
 import Card from "../Card/Card";
 import styles from "./list.module.css";
 
-type ListProps = {
-  data?: PodcastsAndMovieData[];
-};
+type ListProps = {};
 
-export function List({ data }: ListProps) {
-  const { search } = useSearch();
-  const { podcasts } = usePodcastList();
+export function List({}: ListProps) {
+  const search = usePodcastsStore((s) => s.search);
+  const podcasts = usePodcastsStore((s) => s.podcasts);
 
-  const podcastsList = data ?? podcasts ?? [];
   const podcastSearchKeyWord =
     search?.title?.trim().toLowerCase().split(" ") ?? [];
   const seasonSearch = search?.season?.trim() ?? "";
 
-  const filteredPodcasts: PodcastsAndMovieData[] = podcastsList?.filter(
+  const filteredPodcasts: PodcastsAndMovieData[] = podcasts?.filter(
     (podcast: any) => {
       if (
         seasonSearch &&

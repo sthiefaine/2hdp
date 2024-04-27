@@ -1,15 +1,15 @@
 "use client";
 
-import { useSearch } from "@/context/search.context";
 import { Filter } from "../Filter/Filter";
 import { SearchBar } from "../SearchBar/searchbar";
 
+import { usePodcastsStore } from "@/zustand/context/podcasts";
 import styles from "./search.module.css";
 
 type SearchProps = {};
 
 export const Search = ({}: SearchProps) => {
-  const { search, setSearch } = useSearch();
+  const { search, setSearch } = usePodcastsStore((s) => s);
   return (
     <>
       {" "}

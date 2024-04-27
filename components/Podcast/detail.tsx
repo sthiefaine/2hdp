@@ -1,5 +1,4 @@
 "use client";
-import { usePlayer } from "@/context/player.context";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import Card from "../Card/Card";
@@ -7,6 +6,7 @@ import SearchMovie from "../Forms/SearchMovie";
 import styles from "./detail.module.css";
 import { ModalReview } from "./modalReview";
 
+import { usePlayerStore } from "@/zustand/store/player";
 import { Download, MessageCircleHeart, Pause, Play } from "lucide-react";
 import { useSession } from "next-auth/react";
 
@@ -23,7 +23,14 @@ export const PodcastDetail = ({
 }: PodcastPlayerProps) => {
   const { data: session, status } = useSession();
   const loggedIn = status === "authenticated" && session.user?.name;
-  const { podcast, setPodcast, isPlaying, setIsPlaying } = usePlayer();
+  const {
+    podcast,
+    setPodcast,
+    isPlaying,
+    setIsPlaying,
+    setLaunchPlay,
+    launchPlay,
+  } = usePlayerStore();
   const [displayOpenEditMovie, setDisplayOpenEditMovie] = useState(false);
   const [displayReview, setDisplayReview] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
@@ -39,10 +46,8 @@ export const PodcastDetail = ({
       }
     };
 
-    // Ajoutez l'écouteur d'événement au chargement du composant
     document.addEventListener("mousedown", handleClickOutside);
 
-    // Retirez l'écouteur d'événement lorsque le composant est démonté
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -74,7 +79,6 @@ export const PodcastDetail = ({
   };
 
   if (!result[0]) {
-    console.log("No result found", result);
     return null;
   }
 

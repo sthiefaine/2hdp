@@ -1,14 +1,14 @@
 "use client";
-import { usePlayer } from "@/context/player.context";
 import { slugify } from "@/helpers";
 import { getAverageRGB } from "@/helpers/colors";
+import { usePlayerStore } from "@/zustand/store/player";
 import { CircleX, Eye, PauseIcon, PlayIcon } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import styles from "./playerBar.module.css";
 
 export const PlayerBar = () => {
-  const { podcast, isPlaying, setIsPlaying, setPodcast } = usePlayer();
+  const { podcast, isPlaying, setIsPlaying, setPodcast } = usePlayerStore();
 
   const audioRef = useRef<HTMLAudioElement>(null);
   const [progress, setProgress] = useState(0);
@@ -160,6 +160,8 @@ export const PlayerBar = () => {
       <div className={styles.player_title}>{podcast.title}</div>{" "}
       <div id="playerBar" className={styles.player_bar_container}>
         <audio
+          onPlaying={() => setIsPlaying(true)}
+          onPause={() => setIsPlaying(false)}
           ref={audioRef}
           src={podcast?.url}
           autoPlay={true}

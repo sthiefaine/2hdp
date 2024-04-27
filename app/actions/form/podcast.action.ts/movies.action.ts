@@ -63,7 +63,8 @@ export const updateMoviePoster = async (
   });
 
   if (result) {
-    revalidatePath(`/details/${podcastInfo.slug}`);
+    revalidatePath("/", "page");
+    // revalidatePath(`/details/${podcastInfo.slug}`);
     return {
       success: true,
       message: "Movie Poster updated",

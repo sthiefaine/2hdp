@@ -17,7 +17,6 @@ export const uploadPictureOnUploadThing = async (formData: FormData) => {
     method: "POST",
     body: file,
   });
-  console.log("AAAAAAAAA", response);
   return response;
 };
 

@@ -1,13 +1,11 @@
 "use client";
-import { usePodcastList } from "@/context/podcastList.context";
-import { useSearch } from "@/context/search.context";
+import { usePodcastsStore } from "@/zustand/context/podcasts";
 import styles from "./filter.module.css";
 
 type FilterProps = {};
 
 export const Filter = (props: FilterProps) => {
-  const { search, setSearch } = useSearch();
-  const { podcasts } = usePodcastList();
+  const { podcasts, search, setSearch } = usePodcastsStore((s) => s);
 
   const seasonsList = Array.from(
     new Set(
@@ -17,7 +15,7 @@ export const Filter = (props: FilterProps) => {
     )
   ).sort((a, b) => Number(a) - Number(b));
 
-  const handleTest = (term: string) => {
+  const handleSeason = (term: string) => {
     setSearch({ ...search, season: term });
   };
 
@@ -28,7 +26,7 @@ export const Filter = (props: FilterProps) => {
         className={`${styles.button__all} ${
           search.season ? "" : styles.button__active
         }`}
-        onClick={() => handleTest("")}
+        onClick={() => handleSeason("")}
       >
         Toutes
       </button>
@@ -40,7 +38,7 @@ export const Filter = (props: FilterProps) => {
               : ""
           }`}
           key={index}
-          onClick={() => handleTest(season)}
+          onClick={() => handleSeason(season)}
         >
           {season}
         </button>

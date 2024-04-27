@@ -11,6 +11,7 @@ import {
   getPreviousAndNextPodcast,
 } from "@/app/actions/podcast.action";
 import { Metadata, ResolvingMetadata } from "next";
+import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import styles from "./page.module.css";
 
@@ -29,17 +30,9 @@ export async function generateMetadata(
   { params }: DetailProps,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  // read route params
   const slug = params.slug;
 
-  // fetch data
   const product: any = await getPodcastAndMovieInfo(slug);
-
-  if (!product[0]) {
-    console.error("No product found for slug", slug, product);
-  }
-  // optionally access and extend (rather than replace) parent metadata
-  const previousImages = (await parent).openGraph?.images || [];
 
   return {
     metadataBase: new URL(`${process.env.SITE_URL}`),
@@ -59,6 +52,7 @@ export async function generateMetadata(
 
 export default async function Detail({ params }: DetailProps) {
   const { slug } = params;
+
   const resultData: any = await getPodcastAndMovieInfo(slug);
   const reviewInfoData: any = await getPodcastReview(slug);
   const previousAndNextData = await getPreviousAndNextPodcast(slug);
@@ -69,10 +63,57 @@ export default async function Detail({ params }: DetailProps) {
     previousAndNextData,
   ]);
 
+  if (!resultData[0]) {
+    notFound();
+  }
+
+  const resultTemplate = [
+    {
+      id: 123,
+      title: "Soyez sympa, rembobinez",
+      poster: "",
+      sagaIdTmdb: null,
+      directorsName: ["Michel Gondry"],
+      releaseDate: "2008-02-22",
+      createdAt: new Date("2024-04-24T00:00:00.000Z"),
+      idTmdb: null,
+      saison: 1,
+      episode: 1,
+      originalTitle: "Be Kind Rewind",
+      isMovie: true,
+      podcastId: null,
+      podcastTitle: "Soyez sympa, rembobinez",
+      podcastDescription: "Soyez sympa, rembobinez",
+      podcastSlug: "soyez-sympa-rembobinez",
+    },
+  ];
+
+  const reviewInfoTemplate = [
+    {
+      id: 123,
+      title: "Titre du podcast",
+      description: "Description du podcast",
+      movieIdTmdb: 456,
+      movieIdAlloCine: 789,
+      slug: "slug-du-podcast",
+      ReviewReleaseDate: "2024-04-25T00:00:00.000Z",
+      review: "Excellente critique du film.",
+      rating: 4.5,
+    },
+  ];
+
   return (
     <>
       <main className={styles.main}>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense
+          fallback={
+            <PodcastDetail
+              result={resultTemplate}
+              reviewInfo={reviewInfoTemplate}
+              previousAndNext={{ previousPodcast: [], nextPodcast: [] }}
+            />
+          }
+        >
           <PodcastDetail
             result={result}
             reviewInfo={reviewInfo}

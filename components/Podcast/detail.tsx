@@ -23,14 +23,8 @@ export const PodcastDetail = ({
 }: PodcastPlayerProps) => {
   const { data: session, status } = useSession();
   const loggedIn = status === "authenticated" && session.user?.name;
-  const {
-    podcast,
-    setPodcast,
-    isPlaying,
-    setIsPlaying,
-    setLaunchPlay,
-    launchPlay,
-  } = usePlayerStore();
+  const { podcast, setPodcast, isPlaying, setIsPlaying, setClearPlayerStore } =
+    usePlayerStore();
   const [displayOpenEditMovie, setDisplayOpenEditMovie] = useState(false);
   const [displayReview, setDisplayReview] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
@@ -61,9 +55,8 @@ export const PodcastDetail = ({
   const nextPodcast = previousAndNext.nextPodcast[0];
 
   const handleListen = () => {
-    setIsPlaying(true);
-
     if (podcast.url !== result[0].audio) {
+      setClearPlayerStore();
       setPodcast({
         ...podcast,
         title: result[0].title ?? result[0].movieTitle,
@@ -72,6 +65,7 @@ export const PodcastDetail = ({
         artist: result[0].speakers?.join(", ") ?? "",
       });
     }
+    setIsPlaying(true);
   };
 
   const handlePause = () => {

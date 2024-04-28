@@ -8,7 +8,17 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./playerBar.module.css";
 
 export const PlayerBar = () => {
-  const { podcast, isPlaying, setIsPlaying, setPodcast } = usePlayerStore();
+  const {
+    podcast,
+    isPlaying,
+    setIsPlaying,
+    setPodcast,
+    setCurrentPlayTime,
+    setClearPlayerStore,
+    currentPlayTime,
+    setTotalDuration,
+    totalDuration,
+  } = usePlayerStore();
 
   const audioRef = useRef<HTMLAudioElement>(null);
   const [progress, setProgress] = useState(0);
@@ -18,11 +28,20 @@ export const PlayerBar = () => {
   const [formattedDurationTotal, setFormattedDurationTotal] =
     useState("00:00:00");
   const progressBarRef = useRef<HTMLDivElement>(null);
-  const [test, setTest] = useState<Number[]>([0, 0, 0]);
+  const [backgroundColor, setBackgroundColor] = useState<Number[]>([0, 0, 0]);
+
+  const setData = () => {
+    if (podcast.url === audioRef.current?.src) {
+      setDuration(currentPlayTime);
+      setTotalDuration(totalDuration);
+      const progressPercentage = (currentPlayTime / totalDuration) * 100;
+      setProgress(progressPercentage);
+    }
+  };
 
   useEffect(() => {
     getAverageRGB(podcast.img).then((res: any) => {
-      setTest(res);
+      setBackgroundColor(res);
     });
   }, [podcast.img]);
 
@@ -44,18 +63,24 @@ export const PlayerBar = () => {
 
   useEffect(() => {
     setFormattedDurationTotal("00:00:00");
+
     const audioElement = audioRef.current;
     if (!audioElement) return;
+
     const setAudioData = () => {
       setDurationTotal(audioElement.duration);
+      setTotalDuration(audioElement.duration);
     };
 
     const updateProgress = () => {
-      const currentTime = audioElement.currentTime;
-      const duration = audioElement.duration;
-      const progressPercentage = (currentTime / duration) * 100;
-      setDuration(currentTime);
-      setProgress(progressPercentage);
+      if (podcast.url === audioElement.src) {
+        const currentTime = audioElement.currentTime;
+        const duration = audioElement.duration;
+        const progressPercentage = (currentTime / duration) * 100;
+        setDuration(currentTime);
+        setProgress(progressPercentage);
+        setCurrentPlayTime(currentTime);
+      }
     };
 
     if (audioElement.readyState >= 2) {
@@ -97,8 +122,13 @@ export const PlayerBar = () => {
     if (!isPlaying) {
       audioElement.pause();
     } else {
+      if (podcast.url === audioElement.src) {
+        audioElement.currentTime = currentPlayTime;
+      }
+
       audioElement.play();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPlaying]);
 
   const padZero = (num: number) => {
@@ -137,16 +167,10 @@ export const PlayerBar = () => {
     if (!audioElement) return;
     audioElement.currentTime = 0;
     audioElement.pause();
-    setIsPlaying(false);
-    setPodcast({
-      title: "",
-      artist: "",
-      url: "",
-      img: "",
-    });
+    setClearPlayerStore();
   };
 
-  if (!podcast.url) {
+  if (!podcast?.url) {
     return null;
   }
 
@@ -154,7 +178,7 @@ export const PlayerBar = () => {
     <div
       className={styles.container}
       style={{
-        backgroundColor: `rgba(${test[0]}, ${test[1]}, ${test[2]})`,
+        backgroundColor: `rgba(${backgroundColor[0]}, ${backgroundColor[1]}, ${backgroundColor[2]})`,
       }}
     >
       <div className={styles.player_title}>{podcast.title}</div>{" "}
@@ -162,6 +186,7 @@ export const PlayerBar = () => {
         <audio
           onPlaying={() => setIsPlaying(true)}
           onPause={() => setIsPlaying(false)}
+          onLoadedData={() => setData()}
           ref={audioRef}
           src={podcast?.url}
           autoPlay={true}

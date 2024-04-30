@@ -3,13 +3,20 @@ import { Prisma, PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import Parser from "rss-parser";
 
+import { auth } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
-
-export async function GET(req: NextRequest) {
+export const GET = async (req: NextRequest) => {
+  const session = await auth();
+  const isInternalRequest = req.headers.get("x-vercel-id");
+  console.log("session ===>", req);
+  if (!session && !isInternalRequest) {
+    return new NextResponse(null, {
+      status: 401,
+    });
+  }
   const prisma = new PrismaClient();
   const parser = new Parser();
   const feedData = await parser.parseURL("https://feed.ausha.co/Loa7srdWGm1b");
-
   function slugify(title: string): string {
     return title
       .normalize("NFD")
@@ -43,4 +50,4 @@ export async function GET(req: NextRequest) {
   return new NextResponse(JSON.stringify(podcastsList), {
     status: 200,
   });
-}
+};

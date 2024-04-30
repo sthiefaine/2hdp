@@ -31,7 +31,7 @@
     "framer-motion": "^11.0.6",
     "lucide-react": "^0.372.0",
     "next": "14.1.0",
-    "next-auth": "^5.0.0-beta.16",
+    "next-auth": "^5.0.0-beta",
     "next-view-transitions": "^0.1.1",
     "node-html-parser": "^6.1.12",
     "puppeteer": "^22.4.1",

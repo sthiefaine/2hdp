@@ -5,7 +5,7 @@ import styles from "./header.module.css";
 export function Header() {
   return (
     <header className={styles.header}>
-      <Link href="/" scroll={false}>
+      <Link href="/" scroll={true}>
         <Image
           className={styles.header__logo}
           src="/2hdp-logo.svg"

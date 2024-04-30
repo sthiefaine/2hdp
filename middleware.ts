@@ -11,6 +11,10 @@ export const config = {
 
 import { NextResponse } from "next/server";
 
-export default function middleware() {
+//export { auth as middleware } from "@/lib/auth";
+
+export const middleware = () => {
   return NextResponse.next();
-}
+};
+
+export default middleware;

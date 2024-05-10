@@ -22,15 +22,15 @@ export const Search = ({}: SearchProps) => {
         <div className={styles.container__checkbox}>
           <input
             type="checkbox"
-            id="fandecoatch"
-            name="fandecoatch"
+            id="fandecaoch"
+            name="fandecaoch"
             onChange={() =>
-              setSearch({ ...search, fandecoatch: !search.fandecoatch })
+              setSearch({ ...search, fandecaoch: !search.fandecaoch })
             }
-            checked={search.fandecoatch}
+            checked={search.fandecaoch}
           />
-          <label className={styles.label} htmlFor="fandecoatch">
-            Avec fandecoatch
+          <label className={styles.label} htmlFor="fandecaoch">
+            Avec fandecaoch
           </label>
         </div>
       </div>

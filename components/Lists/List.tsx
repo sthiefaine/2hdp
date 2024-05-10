@@ -18,7 +18,7 @@ export function List({}: ListProps) {
     (podcast: any) => {
       if (
         seasonSearch &&
-        search?.fandecoatch &&
+        search?.fandecaoch &&
         podcastSearchKeyWord.length > 0
       ) {
         const filteredPodcasts =
@@ -31,7 +31,7 @@ export function List({}: ListProps) {
 
         return filteredPodcasts ?? [];
       }
-      if (seasonSearch && search?.fandecoatch) {
+      if (seasonSearch && search?.fandecaoch) {
         const filteredPodcasts =
           podcast.saison === seasonSearch &&
           podcast.saison !== null &&
@@ -39,7 +39,7 @@ export function List({}: ListProps) {
 
         return filteredPodcasts ?? [];
       }
-      if (seasonSearch && !search?.fandecoatch) {
+      if (seasonSearch && !search?.fandecaoch) {
         const filteredPodcasts =
           podcast.saison === seasonSearch &&
           podcast.saison !== null &&
@@ -50,10 +50,10 @@ export function List({}: ListProps) {
         return filteredPodcasts ?? [];
       }
 
-      if (search?.fandecoatch && podcastSearchKeyWord.length === 0) {
+      if (search?.fandecaoch && podcastSearchKeyWord.length === 0) {
         return podcast.review && podcast.review !== null;
       }
-      if (search?.fandecoatch && podcastSearchKeyWord.length > 0) {
+      if (search?.fandecaoch && podcastSearchKeyWord.length > 0) {
         return (
           podcast.review &&
           podcast.review !== null &&

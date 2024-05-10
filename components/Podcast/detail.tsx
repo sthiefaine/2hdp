@@ -154,7 +154,7 @@ export const PodcastDetail = ({
               </a>
             </button>
 
-            {reviewInfo[0]?.review && (
+            {reviewInfo[0]?.userName === "fandecaoch" && (
               <button
                 className={styles.buttonAction}
                 onClick={() => setDisplayReview(true)}

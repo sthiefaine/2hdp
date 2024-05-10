@@ -25,7 +25,7 @@ export const PodcastsStoreProvider = ({
   if (!storeRef.current) {
     storeRef.current = createPodcastsStore({
       podcasts: podcasts,
-      search: { title: "", season: "", fandecoatch: false },
+      search: { title: "", season: "", fandecaoch: false },
     });
   }
 

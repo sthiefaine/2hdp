@@ -46,7 +46,7 @@ export const GET = async (req: NextRequest) => {
     skipDuplicates: true,
   });
 
-  revalidatePath("/", "page");
+  revalidatePath("/");
   return new NextResponse(JSON.stringify(podcastsList), {
     status: 200,
   });

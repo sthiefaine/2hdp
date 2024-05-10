@@ -6,7 +6,7 @@ export type PodcastsState = {
   search: {
     title: string;
     season: string;
-    fandecoatch: boolean;
+    fandecaoch: boolean;
   };
 };
 
@@ -14,7 +14,7 @@ export type PodcastsActions = {
   setSearch: (search: {
     title: string;
     season: string;
-    fandecoatch: boolean;
+    fandecaoch: boolean;
   }) => void;
 };
 
@@ -25,7 +25,7 @@ export const defaultInitState: PodcastsState = {
   search: {
     title: "",
     season: "",
-    fandecoatch: false,
+    fandecaoch: false,
   },
 };
 

@@ -36,7 +36,7 @@ export async function generateMetadata(
 
   return {
     metadataBase: new URL(`${process.env.SITE_URL}`),
-    keywords: ["2hdp", "podcast", "cinema", "film", "fandecoatch"],
+    keywords: ["2hdp", "podcast", "cinema", "film", "fandecaoch"],
     title: product?.[0]?.title,
     openGraph: {
       images: [

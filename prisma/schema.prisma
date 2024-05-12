@@ -125,15 +125,15 @@ model Movies {
 model Reviews {
   id        Int      @id @default(autoincrement())
   idTmdb    Int?
-  idAlloCine     Int
-  userIdAlloCine String
+  idAlloCine     Int?
+  userIdAlloCine String?
   originalTitle String
   slug    String
   userName String
   review String
-  rating    Float
+  rating    Float?
   releaseDate DateTime
-  completed Boolean
+  completed Boolean @default(false)
   display Boolean @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

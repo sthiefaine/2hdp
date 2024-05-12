@@ -27,6 +27,7 @@ export const PodcastDetail = ({
     usePlayerStore();
   const [displayOpenEditMovie, setDisplayOpenEditMovie] = useState(false);
   const [displayReview, setDisplayReview] = useState(false);
+  const [displayIAReview, setDisplayIAReview] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

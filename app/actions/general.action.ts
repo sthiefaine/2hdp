@@ -31,11 +31,11 @@ export const getPodcastReview = cache(async (slug: string) => {
     rating: number;
   } = await prisma.$queryRaw`
 SELECT 
-    "Podcasts".*,
     "UniqueReviews"."releaseDate" as "ReviewReleaseDate",
     "UniqueReviews"."review",
     "UniqueReviews"."rating",
     "UniqueReviews"."idAlloCine",
+    "UniqueReviews"."userName",
     "Movies"."slug"
 FROM 
     "Podcasts"

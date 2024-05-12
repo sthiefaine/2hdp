@@ -1,3 +1,4 @@
+"use server";
 import { Intro } from "@/components/Intro/Intro";
 import { List } from "@/components/Lists/List";
 import { fetchAllPodcastsListWithMovie } from "./actions/podcast.action";

@@ -1,5 +1,6 @@
 "use client";
 import { PodcastsAndMovieData } from "@/app/actions/podcast.action";
+import { PreserveScroll } from "@/hooks/preservScroll";
 import { usePodcastsStore } from "@/zustand/context/podcasts";
 import Card from "../Card/Card";
 import styles from "./list.module.css";
@@ -71,10 +72,13 @@ export function List({}: ListProps) {
   );
 
   return (
-    <section className={styles.section}>
-      {filteredPodcasts?.map((item, index) => (
-        <Card key={item.title + index} item={item} />
-      ))}
-    </section>
+    <>
+      <PreserveScroll />
+      <section className={styles.section}>
+        {filteredPodcasts?.map((item, index) => (
+          <Card key={item.title + index} item={item} />
+        ))}
+      </section>
+    </>
   );
 }

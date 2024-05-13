@@ -8,7 +8,6 @@ import { revalidatePath } from "next/cache";
 export const GET = async (req: NextRequest) => {
   const session = await auth();
   const isInternalRequest = req.headers.get("x-vercel-id");
-  console.log("session ===>", req);
   if (!session && !isInternalRequest) {
     return new NextResponse(null, {
       status: 401,

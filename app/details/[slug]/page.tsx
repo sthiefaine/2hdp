@@ -50,7 +50,7 @@ export async function generateMetadata(
   };
 }
 
-export default async function Detail({ params }: DetailProps) {
+export default async function Details({ params }: DetailProps) {
   const { slug } = params;
 
   const resultData: any = await getPodcastAndMovieInfo(slug);

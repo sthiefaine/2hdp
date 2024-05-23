@@ -3,7 +3,7 @@
 import { slugify } from "@/helpers";
 import { revalidatePath } from "next/cache";
 import { createMovie } from "../movies.action";
-import { updatePodcast } from "../podcast.action";
+import { getPreviousPodcast, updatePodcast } from "../podcast.action";
 
 export async function handleCreateMovie(
   prevState: { guid: string; isMovie: boolean; filmSelectedDetails: any },
@@ -50,8 +50,12 @@ export async function handleCreateMovie(
   return await Promise.all([
     updatePodcast(guid, rawFormData.idTmdb),
     createMovie(rawFormData),
+    getPreviousPodcast(filmSelectedDetails.slug),
   ])
     .then((values) => {
+      if (values[2]) {
+        revalidatePath(`/details/${values[2].slug}`);
+      }
       revalidatePath(`/details/${filmSelectedDetails.slug}`);
       return {
         success: true,

@@ -6,6 +6,7 @@ import SearchMovie from "../Forms/SearchMovie";
 import styles from "./detail.module.css";
 import { ModalReview } from "./modalReview";
 
+import { transformUrl } from "@/helpers";
 import { usePlayerStore } from "@/zustand/store/player";
 import { Download, MessageCircleHeart, Pause, Play } from "lucide-react";
 import { useSession } from "next-auth/react";
@@ -85,7 +86,7 @@ export const PodcastDetail = ({
           className={styles.landingImage}
           src={
             result[0]?.poster && result[0]?.poster !== "null"
-              ? result[0]?.poster
+              ? transformUrl(result[0]?.poster)
               : "/cover.jpg"
           }
           style={{ objectFit: "cover" }}

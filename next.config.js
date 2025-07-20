@@ -9,6 +9,7 @@ const nextConfig = {
       "public.blob.vercel-storage.com",
       "2hdp.fr",
       "www.2hdp.fr",
+      "uploadfiles.clairdev.com",
     ],
   },
   async rewrites() {

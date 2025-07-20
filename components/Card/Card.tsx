@@ -1,4 +1,4 @@
-import { slugify } from "@/helpers";
+import { slugify, transformUrl } from "@/helpers";
 import { shortDate } from "@/helpers/dates";
 import { formatDuration } from "@/helpers/times";
 import { Movie, Podcast } from "@/models/podcast.model";
@@ -23,7 +23,7 @@ const Card = ({
           <span className={styles.imageContainer}>
             {item.poster && (
               <Image
-                src={item.poster}
+                src={transformUrl(item.poster)}
                 alt="Picture of the author"
                 width={750}
                 height={400}
